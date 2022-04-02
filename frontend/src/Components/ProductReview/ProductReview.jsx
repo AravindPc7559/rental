@@ -101,7 +101,7 @@ function ProductReview({id}) {
             <br/>
         </Box>
               :
-              <Typography  variant='p' component='h6' sx={{color:'red',border:'2px solid red',padding:1.5,marginTop:10,justifyContent:'center',display:'flex'}} >
+              <Typography  variant='p' component='h6' sx={{color:'red',padding:1.5,marginTop:10,justifyContent:'center',display:'flex'}} >
               Please Login To Write Review!
             </Typography>
               }

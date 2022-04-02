@@ -205,6 +205,7 @@ function Login() {
 // validatinf the otp
   const otpValidate = (e) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
         
@@ -231,7 +232,9 @@ function Login() {
 
       setOpenModal(false);
     setOtpModal(true)
+    setLoading(false)
     } catch (error) {
+      setLoading(false)
         console.log(error);
         setOtpNumberError(true)
         setOtpModal(false)
@@ -389,7 +392,7 @@ function Login() {
            <input type="number" placeholder="Otp Number" required style={{width:200,height:50,border:'1px solid black',textAlign:'center'}}  onChange={(e)=>setOtp(e.target.value)}  />
            </div>
           <div style={{justifyContent:'center', display:'flex',marginTop:10}} >
-          <Button style={{height:40,width:100}}  variant='outlined' type='submit' >Variefy</Button>
+          <Button style={{height:40,width:100}}  variant='outlined' type='submit' >Verify</Button>
           </div>
           </form>
           {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>

@@ -302,7 +302,7 @@ useEffect(()=>{
         </Container>
         <Container sx={{marginTop:5}} >
           <Grid container >
-              <Grid item xl={12} lg={12} md={12}  sm={12} xs={12} >
+              <Grid   xl={12} lg={12} md={12}  sm={12} xs={12} >
                 <Paper elevation={3} >
                  <Box>
                  <Typography variant='h4' component='h4' textAlign='center' paddingTop={2} >
