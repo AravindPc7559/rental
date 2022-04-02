@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 
 const CarModel = mongoose.Schema({
-    Brand:{
+    brand:{
         type:String,
         required:true
     },
-    Model:{
+    model:{
         type:String,
         required:true
     },
-    FuelType:{
+    fueltype:{
         type:String,
         required:true
     },
@@ -17,35 +17,35 @@ const CarModel = mongoose.Schema({
         type:String,
         required:true
     },
-    Price:{
+    price:{
         type:Number,
         required:true
     },
-    Seats:{
+    seats:{
         type:Number,
         required:true
     },
-    Location:{
+    location:{
         type:String,
         required:true
     },
-    Mileage:{
+    mileage:{
         type:String,
         required:true
     },
-    Register:{
+    register:{
         type:String,
         required:true
     },
-    Description:{
+    description:{
         type:String,
         required:true
     },
-    // carImage:{
-    //     type:String,
-    //     required:true
-    // },
-    Url:{
+    imgUrl:{
+        type:String,
+        required:true
+    },
+    url:{
         type:String,
         required:true
     }

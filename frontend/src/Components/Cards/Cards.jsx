@@ -152,7 +152,7 @@ function Cards() {
         <Container>
         <Grid container spacing={4} >
                     <Grid item sm={12} xs={12} md={6} lg={4} xl={4} >
-                           <Box marginLeft={3} >
+                           <Box marginLeft={2} >
                            <TextField id="outlined-basic" label="Search Cars"  onChange={(e)=>setSearchText(e.target.value)}   />
                             <Button variant='contained'  sx={{marginTop:1,marginLeft:1}} onClick={handleSearch} >Search</Button>
                            </Box>
@@ -202,23 +202,23 @@ function Cards() {
                alt="green iguana"
                height='140'
                style={{height:300,objectFit:'contain'}}
-               image={require(`../../assets/CarImg/${obj._id}.jpg`)}
+               image={obj.imgUrl}
              />
              <CardContent>
               <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.Brand}
+                 {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.Price}/Day
+                 ${obj.price}/Day
                </Typography>
               </div>
                <Typography variant="subtitle2" color="text.secondary">
-                   Available in :{obj.Location}
+                   Available in :{obj.location}
                </Typography>
                <Typography variant="body2" color="text.secondary" marginTop={1}>
-                 {obj.Description}
+                 {obj.description}
                </Typography>
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >
@@ -255,23 +255,23 @@ function Cards() {
                alt="green iguana"
                height='140'
                style={{height:300,objectFit:'contain'}}
-               image={require(`../../assets/CarImg/${obj._id}.jpg`)}
+               image={obj.imgUrl}
              />
              <CardContent>
               <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.Brand}
+                 {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.Price}/Day
+                 ${obj.price}/Day
                </Typography>
               </div>
                <Typography variant="subtitle2" color="text.secondary">
-                   Available in :{obj.Location}
+                   Available in :{obj.location}
                </Typography>
                <Typography variant="body2" color="text.secondary" marginTop={1}>
-                 {obj.Description}
+                 {obj.description}
                </Typography>
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >
@@ -309,23 +309,23 @@ function Cards() {
                  alt="green iguana"
                  height='140'
                  style={{height:300,objectFit:'contain'}}
-                 image={require(`../../assets/CarImg/${obj._id}.jpg`)}
+                 image={obj.imgUrl}
                />
                <CardContent>
                 <div style={{display:'flex',justifyContent:'space-between'}} >
                 <Typography gutterBottom variant="h5" component="div">
-                   {obj.Brand}
+                   {obj.brand}
                    {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                  </Typography>
                  <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                   ${obj.Price}/Day
+                   ${obj.price}/Day
                  </Typography>
                 </div>
                  <Typography variant="subtitle2" color="text.secondary">
-                     Available in :{obj.Location}
+                     Available in :{obj.location}
                  </Typography>
                  <Typography variant="body2" color="text.secondary" marginTop={1}>
-                   {obj.Description}
+                   {obj.description}
                  </Typography>
                </CardContent>
                <CardActions style={{bottom:0 , position:'absolute'}} >
@@ -363,23 +363,23 @@ function Cards() {
                alt="green iguana"
                height='140'
                style={{height:300,objectFit:'contain'}}
-               image={require(`../../assets/CarImg/${obj._id}.jpg`)}
+               image={obj.imgUrl}
              />
              <CardContent>
               <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.Brand}
+                 {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.Price}/Day
+                 ${obj.price}/Day
                </Typography>
               </div>
                <Typography variant="subtitle2" color="text.secondary">
-                   Available in :{obj.Location}
+                   Available in :{obj.location}
                </Typography>
                <Typography variant="body2" color="text.secondary" marginTop={1}>
-                 {obj.Description}
+                 {obj.description}
                </Typography>
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >

@@ -30,8 +30,8 @@ const Adminlogin = asyncHandler(async (req, res) => {
 
 const AddCarRoute = asyncHandler(async (req, res) => {
 
-    const { Url, Brand, Model, FuelType, RegNo, Price, Seats, Location, Mileage, Register, Description } = req.body
-    const Image = req.files.Image
+    const { url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl} = req.body
+  
 
     // console.log(Image);
 
@@ -39,13 +39,8 @@ const AddCarRoute = asyncHandler(async (req, res) => {
 
     // console.log("Working");
 
-    const data = await AddCar.create({ Url, Brand, Model, FuelType, RegNo, Price, Seats, Location, Mileage, Register, Description })
-    Image.mv('.././frontend/src/assets/CarImg/' + data._id + '.jpg', (err, data) => {
-        if (err) {
-            console.log(err, '///////err');
+    const data = await AddCar.create({ url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl})
 
-        }
-    })
     // console.log("00000000000000000",data);
     if (data) {
         res.status(200).json({
@@ -60,7 +55,7 @@ const AddCarRoute = asyncHandler(async (req, res) => {
             Mileage: data.Mileage,
             Register: data.Register,
             Description: data.Description,
-            
+            imgUrl:data.imgUrl
         })
     } else {
         console.log("not good");
@@ -94,22 +89,20 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
  const UpdateCarData = asyncHandler(async(req,res)=>{
 
     const {id} = req.body
-    const image = req.files.Image
-
-    console.log(image);
 
     // console.log(id);
 
     const newCarData = {
-        Brand :req.body.Brand,
-        Model:req.body.Model,
-        FuelType:req.body.FuelType,
+        brand :req.body.brand,
+        model:req.body.model,
+        fueltype:req.body.fueltype,
         RegNo:req.body.RegNo,
-        Price:req.body.Price,
-        Seats:req.body.Seats,
-        Mileage:req.body.Mileage,
-        Register:req.body.Register,
-        Description:req.body.Description
+        price:req.body.price,
+        seats:req.body.seats,
+        mileage:req.body.mileage,
+        register:req.body.register,
+        description:req.body.description,
+        imgUrl:req.body.imgUrl
     }
 
 
@@ -123,17 +116,6 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
         runValidators:true,
         useFindAndModify:false
     })
-
-
-        image.mv('.././frontend/src/assets/CarImg/' + carsData._id + '.jpg', (err, data) => {
-            if (err) {
-                console.log(err, '///////err');
-    
-            }
-        })
-
-        fs.unlinkSync('.././frontend/src/assets/CarImg/'+id+'.jpg')
- 
 
     res.status(200).json(carsData)
 

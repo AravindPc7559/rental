@@ -9,7 +9,8 @@ import { useForm } from "react-hook-form";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../Components/Loading/Loading';
-
+import { ref , getDownloadURL , uploadBytesResumable} from 'firebase/storage'
+import {storage} from '../../Firebase/Firebase'
 
 const useStyles =makeStyles({
 
@@ -69,6 +70,10 @@ function AddCars() {
     const navigate = useNavigate()
     const [loading , setloading] = useState(false)
     const loc = localStorage.getItem('Admin')
+    const [progress, setProgress] = useState(0);
+    const [imgUrl  , setImageUrl] = useState('')
+
+
 
 
     const submitHandle = async(data)=>{
@@ -76,20 +81,23 @@ function AddCars() {
         
         console.log(url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description);
 
-       const formdata = new FormData();
-        formdata.append("Brand", brand);
-        formdata.append("Model", model);
-        formdata.append("FuelType" , fueltype);
-        formdata.append("RegNo" , RegNo);
-        formdata.append("Price",price);
-        formdata.append("Seats",seats);
-        formdata.append("Location",location);
-        formdata.append("Mileage",mileage);
-        formdata.append("Register",register);
-        formdata.append("Description",description)
-        formdata.append('Url',url)
-        formdata.append("Image" , img)
+      //  const formdata = new FormData();
+      //   formdata.append("Brand", brand);
+      //   formdata.append("Model", model);
+      //   formdata.append("FuelType" , fueltype);
+      //   formdata.append("RegNo" , RegNo);
+      //   formdata.append("Price",price);
+      //   formdata.append("Seats",seats);
+      //   formdata.append("Location",location);
+      //   formdata.append("Mileage",mileage);
+      //   formdata.append("Register",register);
+      //   formdata.append("Description",description)
+      //   formdata.append('Url',url)
+      //   // formdata.append("Image" , img)
+      //   formdata.append('imgUrl',imgUrl)
    
+
+
 
         try {
               setloading(true)
@@ -98,8 +106,13 @@ function AddCars() {
                 "Content-type": "application/json"
             }
           }
+
+
+          
           console.log("triggerd");
-          const data  = await axios.post('http://localhost:5000/api/admin/addcar',formdata
+          const data  = await axios.post('http://localhost:5000/api/admin/addcar',{
+            url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl
+          }
           ,config)
 
 
@@ -122,6 +135,38 @@ function AddCars() {
     },[])
 
 // console.log(resData.id);
+
+    const imgUpload = () => {
+      setloading(false)
+      // console.log(img);
+      if (!img) return;
+      const sotrageRef = ref(storage, `carImages/${img.name}`);
+      const uploadTask = uploadBytesResumable(sotrageRef, img);
+
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            setImageUrl(downloadURL);
+          });
+        }
+      );
+      setloading(false)
+
+    }
+
+
+    console.log(imgUrl);
+
 
   return (
    <div className={classes.container} >
@@ -308,6 +353,14 @@ function AddCars() {
        
 
           <input type="file" onChange={(e)=>setImg(e.target.files[0])}  />
+          <input type="submit" value="Upload"  onClick={imgUpload} />
+          <br/>
+          {
+           progress ?
+           <h4>Image uploaded:{progress}%</h4> 
+           :
+           null
+         }
           </Grid>
 
        
@@ -316,6 +369,7 @@ function AddCars() {
         </Grid>
         
        <div className={classes.btnAddCar}>
+        
         <input className={classes.btn} type="submit" value="submit" />       
         
         </div>

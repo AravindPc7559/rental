@@ -38,7 +38,7 @@ function ProductPage(id) {
           axios.post(`http://localhost:5000/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
             // console.log(responce.data);
             setCarData(responce.data)
-            setDummyAmount(responce.data.Price)
+            setDummyAmount(responce.data.price)
             setCarID(responce.data._id)
           })
 
@@ -111,8 +111,8 @@ useEffect(()=>{
         height="140"
         style={{height:'auto',objectFit:'contain'}}
         alt="Image Loaded Failed"
-        // image={require(`../../assets/CarImg/${carId}.jpg`)}
-        image='https://upload.wikimedia.org/wikipedia/commons/9/9d/2019_Lexus_NX_300h_Takumi_CVT_2.5.jpg'
+        image={carData.imgUrl}
+        // image='https://upload.wikimedia.org/wikipedia/commons/9/9d/2019_Lexus_NX_300h_Takumi_CVT_2.5.jpg'
       />
 
           {/* <img src={'../../assets/CarImg/'+{carId}.jpg} alt="" /> */}
@@ -149,7 +149,7 @@ useEffect(()=>{
     <ColoredLine color="black" />
     <div style={{justifyContent:'center',display:'flex'}} >
       <Typography variant='h3' component='h2' >
-        {carData.Brand}  {carData.Model}
+        {carData.brand}  {carData.model}
       </Typography>
     </div>
     <br/>
@@ -194,7 +194,7 @@ useEffect(()=>{
 
               <Box  >
                 <Typography variant='h1 ' component='h1' textAlign='center' >
-                  {carData.Price}
+                  {carData.price}
                 </Typography>
               </Box>
 
@@ -211,7 +211,7 @@ useEffect(()=>{
 
               <Box  >
                 <Typography variant='h1 ' component='h1' textAlign='center' >
-                  {carData.Seats}
+                  {carData.seats}
                 </Typography>
               </Box>
           </Paper>
@@ -227,7 +227,7 @@ useEffect(()=>{
 
               <Box  >
                 <Typography variant='h1 ' component='h1' textAlign='center' >
-                  {carData.Mileage}
+                  {carData.mileage}
                 </Typography>
               </Box>
           </Paper>
@@ -243,7 +243,7 @@ useEffect(()=>{
 
               <Box  >
                 <Typography variant='h1 ' component='h1' textAlign='center' >
-                  {carData.FuelType}
+                  {carData.fueltype}
                 </Typography>
               </Box>
         </Paper>
@@ -261,7 +261,7 @@ useEffect(()=>{
   
                 <Box  >
                   <Typography variant='h1 ' component='h1' textAlign='center' >
-                    {carData.Location} <LocationOnOutlinedIcon onClick={()=>alert("location")} style={{fontSize:40,cursor:'pointer'}}  />
+                    {carData.location} <LocationOnOutlinedIcon onClick={()=>alert("location")} style={{fontSize:40,cursor:'pointer'}}  />
                   </Typography>
                 </Box>
           </Paper>
@@ -293,7 +293,7 @@ useEffect(()=>{
   
                 <Box  >
                   <Typography variant='h1 ' component='h1' textAlign='center' >
-                    {carData.Register}
+                    {carData.register}
                   </Typography>
                 </Box>
           </Paper>
@@ -310,7 +310,7 @@ useEffect(()=>{
                     </Typography>  
                  </Box>
                  <Typography variant='body2' sx={{margin:2}} >
-                   {carData.Description}
+                   {carData.description}
                  </Typography>
                  <br/>
                 </Paper>

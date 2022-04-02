@@ -16,6 +16,9 @@ import {useNavigate , useParams} from 'react-router-dom'
 import Modal from '@mui/material/Modal';
 import { TextareaAutosize, TextField } from '@mui/material';
 import Loading from '../../Components/Loading/Loading';
+import { ref , getDownloadURL , uploadBytesResumable} from 'firebase/storage'
+import {storage} from '../../Firebase/Firebase'
+
 
 
 
@@ -59,20 +62,23 @@ const [loading,setloading] =useState(false)
 
 
 //states of field
-const[Brand , SetBrand] = useState('')
-const[Model ,setModel]  = useState('')
-const[Description , SetDescription] = useState('')
-const [FuelType , setFuelType] = useState('')
-const[Location , SetLocation] = useState('')
-const [Mileage , SetMileage] = useState('')
-const[Price,SetPrice] = useState('')
-const[Regno , SetRegNo]= useState('')
-const[Register,SetRegister] = useState('')
-const[Seat,SetSeat] = useState('');
-const[Url , SetUrl] = useState('') 
+const[brand , SetBrand] = useState('')
+const[model ,setModel]  = useState('')
+const[description , SetDescription] = useState('')
+const [fueltype , setFuelType] = useState('')
+const[location , SetLocation] = useState('')
+const [mileage , SetMileage] = useState('')
+const[price,SetPrice] = useState('')
+const[RegNo , SetRegNo]= useState('')
+const[register,SetRegister] = useState('')
+const[seats,SetSeat] = useState('');
+const[url , SetUrl] = useState('') 
 const [img , setImg] = useState()
 const [id, setId] = useState()
-console.log(id);
+const [image,setImage] = useState('')
+const [imgUrl , setImageUrl] = useState('')
+const [progress, setProgress] = useState(0);
+console.log(imgUrl);
 
 // console.log(img);
 
@@ -148,19 +154,21 @@ const dtlFun = (id) => {
       }
 
     await axios.get(`http://localhost:5000/api/admin/getallcardetails/${id}`).then((res)=>{
-        console.log(res.data.Brand);
-        SetBrand(res.data.Brand)
-        setFuelType(res.data.FuelType)
-        setModel(res.data.Model)
-        SetLocation(res.data.Location)
-        SetMileage(res.data.Mileage)
-        SetPrice(res.data.Price)
+        console.log(res.data.brand);
+        SetBrand(res.data.brand)
+        setFuelType(res.data.fueltype)
+        setModel(res.data.model)
+        SetLocation(res.data.location)
+        SetMileage(res.data.mileage)
+        SetPrice(res.data.price)
         SetRegNo(res.data.RegNo)
-        SetSeat(res.data.Seats)
-        SetUrl(res.data.Url)
-        SetDescription(res.data.Description)
-        SetRegister(res.data.Register)
+        SetSeat(res.data.seats)
+        SetUrl(res.data.url)
+        SetDescription(res.data.description)
+        SetRegister(res.data.register)
+        setImage(res.data.imgUrl)
         setId(res.data._id)
+        
 
         // SetCarEditData(res.data)
       })
@@ -176,20 +184,7 @@ const dtlFun = (id) => {
 
     const formSubmit = async() => {
 
-      const formdata = new FormData();
-      formdata.append("Brand", Brand);
-      formdata.append("Model", Model);
-      formdata.append("FuelType" , FuelType);
-      formdata.append("RegNo" , Regno);
-      formdata.append("Price",Price);
-      formdata.append("Seats",Seat);
-      formdata.append("Location",Location);
-      formdata.append("Mileage",Mileage);
-      formdata.append("Register",Register);
-      formdata.append("Description",Description)
-      formdata.append('Url',Url)
-      formdata.append("Image" , img)
-      formdata.append('id',updateid)
+   
       try {
 
         const config = {
@@ -199,7 +194,9 @@ const dtlFun = (id) => {
         }
 
       
-        const data = await axios.patch('http://localhost:5000/api/admin/updatecardata',formdata,config).then((res)=>{
+        const data = await axios.patch('http://localhost:5000/api/admin/updatecardata',{
+          id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url
+        },config).then((res)=>{
           console.log(res);
         })
 
@@ -207,6 +204,36 @@ const dtlFun = (id) => {
       } catch (error) {
           console.log(error);
       }
+    }
+
+
+    const imgUpload = (e) => {
+      e.preventDefault()
+      setloading(false)
+      // console.log(img);
+      if (!img) return;
+      const sotrageRef = ref(storage, `carImages/${img.name}`);
+      const uploadTask = uploadBytesResumable(sotrageRef, img);
+
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // console.log("File available at", downloadURL);
+            setImageUrl(downloadURL);
+          });
+        }
+      );
+      setloading(false)
+
     }
 
     
@@ -289,7 +316,7 @@ console.log(carEditData);
             placeholder="Enter Name"
             type="text"
             name="brand"
-            value={Brand}
+            value={brand}
             onChange={(e)=>SetBrand(e.target.value)}
           />
             </Grid>
@@ -303,7 +330,7 @@ console.log(carEditData);
             placeholder="Enter Model"
             type="text"
             name="model"
-            value={Model}
+            value={model}
             onChange={(e)=>setModel(e.target.value)}
           />            
           </Grid>
@@ -316,7 +343,7 @@ console.log(carEditData);
             placeholder="Petrol/Diesel"
             type="text"
             name="fueltype"
-            value={FuelType}
+            value={fueltype}
             onChange={(e)=>setFuelType(e.target.value)}
           />            
           </Grid>
@@ -329,7 +356,7 @@ console.log(carEditData);
             label="Register Number"
             placeholder="Enter Register No"
             type="text"
-            value={Regno}
+            value={RegNo}
             name="RegNo"
             onChange={(e)=>SetRegNo(e.target.value)}
           />
@@ -343,7 +370,7 @@ console.log(carEditData);
             placeholder="Enter Amount"
             type="number"
             name="price"
-            value={Price}
+            value={price}
             onChange={(e)=>SetPrice(e.target.value)}
           />            
           </Grid>
@@ -356,7 +383,7 @@ console.log(carEditData);
             placeholder="Enter no of seats"
             type="number"
             name="seats"
-            value={Seat}
+            value={seats}
             onChange={(e)=>SetSeat(e.target.value)}
           />            
           
@@ -370,7 +397,7 @@ console.log(carEditData);
             placeholder="Enter Pickup Location"
             type="text"
             name="location"
-            value={Location}
+            value={location}
             onChange={(e)=>SetLocation(e.target.value)}
           />           
           </Grid>
@@ -383,7 +410,7 @@ console.log(carEditData);
             placeholder="Enter Mileage in liter"
             type="number"
             name="mileage"
-            value={Mileage}
+            value={mileage}
             onChange={(e)=>SetMileage(e.target.value)}
           />            
           </Grid>
@@ -396,7 +423,7 @@ console.log(carEditData);
             placeholder="Enter registration details"
             type="text"
             name="register"
-            value={Register}
+            value={register}
             onChange={(e)=>SetRegister(e.target.value)}
           />           
           </Grid>
@@ -409,7 +436,7 @@ console.log(carEditData);
             placeholder="Enter Description about car"
             type="text"
             name="description"
-            value={Description}
+            value={description}
             style={{ width: 240 ,height:70}}
             onChange={(e)=>SetDescription(e.target.value)}
           />           
@@ -437,7 +464,7 @@ console.log(carEditData);
             placeholder="Enter Car image Url"
             type="url"
             name="url"
-            value={Url}
+            value={url}
             onChange={(e)=>SetUrl(e.target.value)}
           />           
           </Grid>
@@ -445,7 +472,16 @@ console.log(carEditData);
             <Grid item md={6} xs={12} lg={4} marginTop={2} >
        
 
-          <input type="file"  defaultValue={null}  onChange={(e)=>setImg(e.target.files[0])}  />
+          <div style={{display:'flex'}}>
+          <input type="file"  onChange={(e)=>setImg(e.target.files[0])}  />
+          <input type="submit" value="Upload"  onClick={imgUpload} />
+          </div>
+          {
+           progress ?
+           <h4>Image uploaded:{progress}%</h4> 
+           :
+           null
+         }
           </Grid>
 
        
@@ -489,12 +525,12 @@ console.log(carEditData);
         height="140"
       
         style={{height:300,objectFit:'contain'}}
-        image={require(`../../assets/CarImg/${obj._id}.jpg`)}
+        image={obj.imgUrl}
         alt={obj.Url}
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
-          {obj.Brand} {obj.Model}
+          {obj.brand} {obj.model}
         </Typography>
       </CardContent>
       <CardActions>
