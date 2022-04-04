@@ -30,7 +30,7 @@ const Adminlogin = asyncHandler(async (req, res) => {
 
 const AddCarRoute = asyncHandler(async (req, res) => {
 
-    const { url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl} = req.body
+    const { url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription} = req.body
   
 
     // console.log(Image);
@@ -39,7 +39,7 @@ const AddCarRoute = asyncHandler(async (req, res) => {
 
     // console.log("Working");
 
-    const data = await AddCar.create({ url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl})
+    const data = await AddCar.create({ url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription})
 
     // console.log("00000000000000000",data);
     if (data) {
@@ -55,7 +55,9 @@ const AddCarRoute = asyncHandler(async (req, res) => {
             Mileage: data.Mileage,
             Register: data.Register,
             Description: data.Description,
-            imgUrl:data.imgUrl
+            imgUrl:data.imgUrl,
+            imgName:data.imgName,
+            Longdescription:data.Longdescription
         })
     } else {
         console.log("not good");
@@ -102,10 +104,9 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
         mileage:req.body.mileage,
         register:req.body.register,
         description:req.body.description,
-        imgUrl:req.body.imgUrl
+        imgUrl:req.body.imgUrl,
+        Longdescription:req.body.Longdescription
     }
-
-
 
 
     // console.log(newCarData);
@@ -119,7 +120,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
 
     res.status(200).json(carsData)
 
-    console.log(carsData);
+    // console.log(carsData);
 
  })
 
@@ -127,7 +128,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
 
  const userManagement = asyncHandler(async(req,res)=>{
 
-    console.log("entered");
+    // console.log("entered");
      try {
          const user = await User.find({});
          res.json(user)
@@ -142,7 +143,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
 
      const id = req.params.id
 
-     console.log(id);
+    //  console.log(id);
 
 
 
@@ -171,7 +172,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
  const usermanagementUpdateUnblock = asyncHandler(async(req,res)=>{
      const id = req.params.id;
 
-     console.log(id);
+    //  console.log(id);
 
      try {
         const blockData = await User.findByIdAndUpdate(id,{$set:{
@@ -202,7 +203,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
 
     const data = await districtSchema.create({district})
 
-    console.log(data);
+    // console.log(data);
 
     if(data){
 

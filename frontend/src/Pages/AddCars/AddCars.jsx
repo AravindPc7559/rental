@@ -11,16 +11,19 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../../Components/Loading/Loading';
 import { ref , getDownloadURL , uploadBytesResumable} from 'firebase/storage'
 import {storage} from '../../Firebase/Firebase'
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+
 
 const useStyles =makeStyles({
 
     root:{
-        marginTop:100,
-        height:'auto'
+        // marginTop:100,
+        height:'auto',
+        border:'2px solid black'
         
     },
     container:{
-        overflowY:'hidden',
+        // overflowY:'hidden',
         backgroundImage: `url("https://wallpaperaccess.com/full/2702341.jpg")`,
         width:'100%',
         height:'100vh'
@@ -72,30 +75,14 @@ function AddCars() {
     const loc = localStorage.getItem('Admin')
     const [progress, setProgress] = useState(0);
     const [imgUrl  , setImageUrl] = useState('')
+    const [imgName , setImgName] = useState()
 
-
-
+  console.log(imgName);
 
     const submitHandle = async(data)=>{
-        const {url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description} = data
+        const {url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,Longdescription} = data
         
         console.log(url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description);
-
-      //  const formdata = new FormData();
-      //   formdata.append("Brand", brand);
-      //   formdata.append("Model", model);
-      //   formdata.append("FuelType" , fueltype);
-      //   formdata.append("RegNo" , RegNo);
-      //   formdata.append("Price",price);
-      //   formdata.append("Seats",seats);
-      //   formdata.append("Location",location);
-      //   formdata.append("Mileage",mileage);
-      //   formdata.append("Register",register);
-      //   formdata.append("Description",description)
-      //   formdata.append('Url',url)
-      //   // formdata.append("Image" , img)
-      //   formdata.append('imgUrl',imgUrl)
-   
 
 
 
@@ -111,7 +98,7 @@ function AddCars() {
           
           console.log("triggerd");
           const data  = await axios.post('http://localhost:5000/api/admin/addcar',{
-            url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl
+            url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription
           }
           ,config)
 
@@ -136,11 +123,13 @@ function AddCars() {
 
 // console.log(resData.id);
 
-    const imgUpload = () => {
+    const imgUpload = (e) => {
+      e.preventDefault()
       setloading(false)
       // console.log(img);
       if (!img) return;
       const sotrageRef = ref(storage, `carImages/${img.name}`);
+      setImgName(img.name)
       const uploadTask = uploadBytesResumable(sotrageRef, img);
 
 
@@ -175,7 +164,7 @@ function AddCars() {
      
 
         <Container maxWidth='lg'   >
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1,paddingTop:10}}>
         <Paper elevation={5} className={classes.root} >
             <div  className={classes.text}>
             <Typography   variant='h4' component='h5' >
@@ -307,19 +296,9 @@ function AddCars() {
           />           
           </Grid>
 
-          <Grid item md={6} xs={12} lg={4} marginTop={2} >
-            <label style={{color:'red',fontSize:'12px'}} htmlFor="" className={classes.label}  >{errors.description && errors.description.message}</label>
-                <br/>
-                <TextField
-            
-            label="Description"
-            placeholder="Enter Description about car"
-            type="text"
-            multiline
-            name="description"
-            {...register('description',{required:"Description is required" , minLength:{value:10,message:"minimum length is 10"}})}
-          />           
-          </Grid>
+        
+
+       
 
           
           
@@ -349,18 +328,54 @@ function AddCars() {
           />           
           </Grid>
 
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+            <label style={{color:'red',fontSize:'12px'}} htmlFor="" className={classes.label}  >{errors.description && errors.description.message}</label>
+                <br/>
+                <TextareaAutosize
+             style={{height:60,width:300}}
+            
+             maxRows={4}
+            label="Description"
+            placeholder="Enter Description about car"
+            type="text"
+            multiline
+            name="description"
+            {...register('description',{required:"Description is required" , minLength:{value:10,message:"minimum length is 10"},maxLength:{value:300,message:"maximum 100 words"}})}
+          />           
+          </Grid>
+
+
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+            <label style={{color:'red',fontSize:'12px'}} htmlFor="" className={classes.label}  >{errors.Longdescription && errors.Longdescription.message}</label>
+                <br/>
+                <TextareaAutosize
+            style={{height:100,width:300}}
+            
+            maxRows={4}
+            label="Long Description"
+            placeholder="Enter Long Description about car"
+            type="text"
+            multiline
+            name="Longdescription"
+            {...register('Longdescription',{required:"Description is required" , minLength:{value:10,message:"minimum length is 10"}})}
+          />           
+          </Grid>
+
             <Grid item md={6} xs={12} lg={4} marginTop={2} >
        
 
+          <Box sx={{marginTop:6}} >
           <input type="file" onChange={(e)=>setImg(e.target.files[0])}  />
           <input type="submit" value="Upload"  onClick={imgUpload} />
+          {imgUrl ? <img src={imgUrl} style={{width:300,height:200}} alt="" /> : null}
           <br/>
           {
            progress ?
-           <h4>Image uploaded:{progress}%</h4> 
+           <Typography variant='h6' component='h5' >Image uploaded:{progress}%</Typography> 
            :
            null
          }
+          </Box>
           </Grid>
 
        

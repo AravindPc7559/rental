@@ -48,6 +48,14 @@ const CarModel = mongoose.Schema({
     url:{
         type:String,
         required:true
+    },
+    imgName:{
+        type:String,
+        required:true
+    },
+    Longdescription:{
+        type:String,
+        required:true
     }
 },{
     timestamps: true

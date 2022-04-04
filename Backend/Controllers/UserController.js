@@ -7,7 +7,6 @@ const serviceSID =  process.env.SERVICESID
 const AccountSID = process.env.ACCOUNTSID
 const AuthTOKEN  = process.env.AUTHTOKEN
 const client = require('twilio')(AccountSID,AuthTOKEN)
-const WhishListSchema = require('../Model/Wishlist/WishList')
 
 
 //user register
@@ -42,7 +41,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     password,
     isBlock:false,
   });
-  console.log(req.body);
+  // console.log(req.body);
   if (user) {
     res.status(201).json({
       _id: user.id,
@@ -117,7 +116,7 @@ const otpnumber = asyncHandler(async(req,res)=>{
   // console.log(req.body.mobNumber);
 
   const phone = req.body.mobNumber
-  console.log(phone);
+  // console.log(phone);
 
   const data = await User.findOne({phone})
 
@@ -141,13 +140,13 @@ const otpnumber = asyncHandler(async(req,res)=>{
 const otpvalidate = asyncHandler(async(req,res)=>{
   const otp = req.body.otp
   const phone = req.body.mobNumber
-  console.log(phone);
-  console.log(otp);
+  // console.log(phone);
+  // console.log(otp);
 
 
   const data = await User.findOne({phone})
 
-  console.log(data);
+  // console.log(data);
 
   try {
     client.verify.services(serviceSID).verificationChecks.create({
@@ -179,11 +178,11 @@ const GetSingleCar = asyncHandler(async(req,res)=>{
 
     const id = req.params.id
 
-    console.log(id);
+    // console.log(id);
 
     const carData = await AddCar.findById(id)
 
-    console.log(carData);
+    // console.log(carData);
 
     if(carData){
       res.status(200)
@@ -246,37 +245,62 @@ const deletecomment =  asyncHandler(async(req,res)=>{
   const deleteData = await Review.findById({_id})
   await deleteData.remove()
 
-  console.log(deleteData);
+  // console.log(deleteData);
 
 })
 
 const dataTowishlist = asyncHandler(async(req,res)=>{
-  const carId = req.body.userId
-  const userId = req.params.id
+  const carId = req.params.id
+  const data = req.body.USERID
 
 
-  console.log(carId);
-  console.log(userId);
+  // console.log(carId);
+  // console.log(data);
 
-  const checking = await WhishListSchema.find({carId})
 
-  if(checking){
-    res.status(400)
-    console.log("data already in database");
+  const user = await User.findById({"_id":data})
+  await user.wishlist.push(carId)
+  await user.save()
+
+
+  console.log(user);
+
+
+  if(user){
+    res.status(200).json({
+      wishlist:user.wishlist
+    })
+  }
+ 
+})
+
+const getdatafromwishlist = asyncHandler(async(req,res)=>{
+
+
+  const id = req.body.USERID
+
+  console.log(id);
+
+  const user = await User.findById({"_id":id})
+
+  if(user){
+    res.status(200).json({
+      wishlist:user.wishlist
+    })
   }else{
-    const wishlistdata = await WhishListSchema.create({"userId":userId,"carId":carId})
-    console.log(wishlistdata);
+    res.status(400).send("error occured while seaching user id in wishlist data")
   }
 
+  console.log(user);
 })
 
 
 const search = asyncHandler(async(req,res)=>{
-  console.log(req.body.searchText);
+  // console.log(req.body.searchText);
 
-  const Brand = req.body.searchText
+  const brand = req.body.searchText
 
-  const data = await AddCar.find({"Brand":Brand}).collation( { locale: 'en', strength: 2 } )
+  const data = await AddCar.find({"brand":brand}).collation( { locale: 'en', strength: 2 } )
 
     if(data){
       res.status(200).json({
@@ -289,9 +313,9 @@ const search = asyncHandler(async(req,res)=>{
 
 const lowtohigh = asyncHandler(async(req,res)=>{
 
-    const sort = await AddCar.find({}).sort({"Price":1})
+    const sort = await AddCar.find({}).sort({"price":1})
 
-    console.log(sort);
+    // console.log(sort);
 
     if(sort){
       res.status(200).json({
@@ -304,9 +328,9 @@ const lowtohigh = asyncHandler(async(req,res)=>{
 })
 
 const hightolow = asyncHandler(async(req,res)=>{
-      const sorttwo  = await AddCar.find({}).sort({"Price":-1})
+      const sorttwo  = await AddCar.find({}).sort({"price":-1})
 
-      console.log(sorttwo);
+      // console.log(sorttwo);
 
 
       if(sorttwo){
@@ -320,4 +344,45 @@ const hightolow = asyncHandler(async(req,res)=>{
 })
 
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow};
+const getallwishlistdata = asyncHandler(async(req,res)=>{
+
+  const id = req.body.USERID
+
+  // console.log(id);
+
+  const data = await User.findById({'_id':id}).populate(
+    'wishlist',
+    'imgUrl model brand'
+  )
+
+  if(data){
+    res.json(data.wishlist)
+  }else{
+    res.status(400).send("error getting wislist id's in wishlist page")
+  }
+  
+  // console.log(data);
+
+})
+
+
+const removefromwishlist = asyncHandler(async(req,res)=>{
+  
+  const userId = req.body.USERID
+  const carId = req.params.id
+
+  const user = await User.findById({"_id":userId})
+  if(user){
+    await user.wishlist.pull(carId)
+    await user.save()
+    res.json({
+      message:"Deleted Successfully"
+      
+    })
+  }
+
+  // console.log(userId);
+  // console.log(carId);
+})
+
+module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist};

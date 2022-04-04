@@ -53,7 +53,7 @@ function ProductReview({id}) {
       axios.post('http://localhost:5000/api/user/gettingreviews',
         {carId}
       ).then((responce)=>{
-        console.log(responce.data.carData);
+        // console.log(responce.data.carData);
         setComments(responce.data.carData)
       })
     } catch (error) {

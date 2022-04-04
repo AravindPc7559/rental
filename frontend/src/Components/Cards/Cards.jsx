@@ -36,8 +36,9 @@ function Cards() {
     const [searchData , setSearchData] = useState([])
     const [lowtohighdata , setLowToHighData]= useState([])
     const [hightolowdata , setHighToLowData] = useState([])
-   
 
+   
+    // console.log(carsData);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -92,14 +93,9 @@ function Cards() {
    },[render]);
 
 
-   const wishlist = (id) => {
-     console.log(id);
-     console.log(userId); 
 
-     axios.post(`http://localhost:5000/api/user/dataTowishlist/${id}`,{userId}).then((res)=>{
-       console.log(res);
-     })
-   }
+
+
 
 
 
@@ -116,6 +112,7 @@ function Cards() {
         console.log("error occured while searching",error);
      }
    }
+
 
 
  
@@ -143,6 +140,9 @@ function Cards() {
     
   
   //  console.log(hightolowdata);
+
+
+
   return (
     <div>
      
@@ -223,7 +223,7 @@ function Cards() {
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >
                <Button className='btn' onClick={()=>navigate(`/productpage/${obj._id}`)} style={{color:'white',margin:10,backgroundColor:'#016DD9'}}>BOOK NOW</Button> 
-               <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>
+               {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button> */}
                
              </CardActions>
            </Card>
@@ -276,7 +276,7 @@ function Cards() {
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >
                <Button className='btn' onClick={()=>navigate(`/productpage/${obj._id}`)} style={{color:'white',margin:10,backgroundColor:'#016DD9'}}>BOOK NOW</Button> 
-               <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>
+               {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button> */}
                
              </CardActions>
            </Card>
@@ -330,7 +330,7 @@ function Cards() {
                </CardContent>
                <CardActions style={{bottom:0 , position:'absolute'}} >
                  <Button className='btn' onClick={()=>navigate(`/productpage/${obj._id}`)} style={{color:'white',margin:10,backgroundColor:'#016DD9'}}>BOOK NOW</Button> 
-                 <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>
+                 {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button> */}
                  
                </CardActions>
              </Card>
@@ -357,7 +357,7 @@ function Cards() {
                   carsData.slice(0,visible).map((obj)=>{
                       return(
                        <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
-                       <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
+                       <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:650}} className='card' >
              <CardMedia
                component="img"
                alt="green iguana"
@@ -384,7 +384,12 @@ function Cards() {
              </CardContent>
              <CardActions style={{bottom:0 , position:'absolute'}} >
                <Button className='btn' onClick={()=>navigate(`/productpage/${obj._id}`)} style={{color:'white',margin:10,backgroundColor:'#016DD9'}}>BOOK NOW</Button> 
-               <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>
+            
+            
+                    {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Remove from wishlist</Button>    */}
+                    {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>   */}
+              
+               
                
              </CardActions>
            </Card>

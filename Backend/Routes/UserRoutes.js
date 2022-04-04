@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow} = require('../Controllers/UserController')
+const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist} = require('../Controllers/UserController')
 
 
 
@@ -29,6 +29,13 @@ router.route('/search').post(search)
 router.route('/lowtohigh').get(lowtohigh)
 
 router.route('/hightolow').get(hightolow)
+
+router.route('/getdatafromwishlist').post(getdatafromwishlist)
+
+router.route('/getallwishlistdata').post(getallwishlistdata)
+
+router.route('/removefromwishlist/:id').post(removefromwishlist)
+
 
 
 module.exports = router;

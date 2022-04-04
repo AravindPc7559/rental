@@ -16,7 +16,7 @@ import {useNavigate , useParams} from 'react-router-dom'
 import Modal from '@mui/material/Modal';
 import { TextareaAutosize, TextField } from '@mui/material';
 import Loading from '../../Components/Loading/Loading';
-import { ref , getDownloadURL , uploadBytesResumable} from 'firebase/storage'
+import { ref , getDownloadURL , uploadBytesResumable,deleteObject} from 'firebase/storage'
 import {storage} from '../../Firebase/Firebase'
 
 
@@ -78,10 +78,12 @@ const [id, setId] = useState()
 const [image,setImage] = useState('')
 const [imgUrl , setImageUrl] = useState('')
 const [progress, setProgress] = useState(0);
-console.log(imgUrl);
+const [deletImgName , setDltImgName] = useState('')
+const [LongDescription , setLongDescription] = useState('')
+// console.log(imgUrl);
 
 // console.log(img);
-
+// console.log(deletImgName);
 //modal
 const [open, setOpen] = React.useState(false);
 
@@ -96,7 +98,10 @@ const handleCloseEdit = () => setOpenModal(false);
 const handleOpen = () => setOpen(true)
 const handleClose = () => setOpen(false);
 
-const dtlFun = (id) => {
+const dtlFun = (id,imgName) => {
+  // console.log(id);
+  setDltImgName(imgName)
+  // console.log(imgName);
     setDeleteId(id)
     handleOpen()
 }
@@ -115,7 +120,16 @@ const dtlFun = (id) => {
 
   //deleting data
     const DeleteCar = async() =>{
-       console.log(deleteId);
+      //  console.log(deleteId);
+     if(deletImgName){
+      const desertRef = ref(storage, `carImages/${deletImgName}`);
+
+      deleteObject(desertRef).then((res) => {
+      console.log("deleted succesfully",res);
+     }).catch((error) => {
+       console.log("error occures " ,error);
+     });
+     }
 
          try {
             const config = {
@@ -154,7 +168,7 @@ const dtlFun = (id) => {
       }
 
     await axios.get(`http://localhost:5000/api/admin/getallcardetails/${id}`).then((res)=>{
-        console.log(res.data.brand);
+        // console.log(res.data.brand);
         SetBrand(res.data.brand)
         setFuelType(res.data.fueltype)
         setModel(res.data.model)
@@ -168,6 +182,7 @@ const dtlFun = (id) => {
         SetRegister(res.data.register)
         setImage(res.data.imgUrl)
         setId(res.data._id)
+        setLongDescription(res.data.Longdescription)
         
 
         // SetCarEditData(res.data)
@@ -195,7 +210,7 @@ const dtlFun = (id) => {
 
       
         const data = await axios.patch('http://localhost:5000/api/admin/updatecardata',{
-          id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url
+          id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url,LongDescription
         },config).then((res)=>{
           console.log(res);
         })
@@ -239,7 +254,7 @@ const dtlFun = (id) => {
     
 
 
-console.log(carEditData);
+// console.log(carEditData);
 
   useEffect(()=>{
     if(loc){
@@ -469,11 +484,25 @@ console.log(carEditData);
           />           
           </Grid>
 
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+                <br/>
+                <TextareaAutosize
+            style={{height:100,width:260}}
+            maxRows={4}
+            label="Long Description"
+            placeholder="Enter Long Description"
+            type="text"
+            name="Longdescription"
+            value={LongDescription}
+            onChange={(e)=>setLongDescription(e.target.value)}
+          />           
+          </Grid>
+
             <Grid item md={6} xs={12} lg={4} marginTop={2} >
        
 
           <div style={{display:'flex'}}>
-          <input type="file"  onChange={(e)=>setImg(e.target.files[0])}  />
+          <input type="file"  name={imgUrl}  onChange={(e)=>setImg(e.target.files[0])}  />
           <input type="submit" value="Upload"  onClick={imgUpload} />
           </div>
           {
@@ -535,7 +564,7 @@ console.log(carEditData);
       </CardContent>
       <CardActions>
         <Button size="medium" variant='contained' onClick={()=>getCarDetails(`${obj._id}`)} >Edit<EditOutlinedIcon/></Button>
-        <Button size="medium" color="error" variant='contained' onClick={()=>dtlFun(`${obj._id}`)}>Delete<DeleteIcon/></Button>
+        <Button size="medium" color="error" variant='contained' onClick={()=>dtlFun(`${obj._id}`,`${obj.imgName}`)}>Delete<DeleteIcon/></Button>
       </CardActions>
     </Card>
      </Grid>

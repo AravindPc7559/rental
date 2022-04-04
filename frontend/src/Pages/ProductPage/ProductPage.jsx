@@ -19,13 +19,24 @@ function ProductPage(id) {
   const [dummyAmount , setDummyAmount] = useState(0)
   const [carData , setCarData] = useState({})
   const [carId, setCarID] = useState()
+  const [wishlistdata,setWishListData] = useState([])
+  const [render, setRender] = useState(10)
   const id2 = useParams()
 
+  // console.log(wishlistdata);
+
+  // console.log(carId);
+
   const user = localStorage.getItem('userInfo')
+  const userId = JSON.parse(user)
+  const USERID = userId._id
+
+   
   // console.log(carData);
   
   // console.log(id2.id);
-
+  // console.log(userId)
+ 
   const idInfo  = id2.id
 
   // console.log(idInfo);
@@ -33,6 +44,7 @@ function ProductPage(id) {
   //getting single product.
 
     const gettingData = () => {
+  
       try {
 
           axios.post(`http://localhost:5000/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
@@ -83,11 +95,59 @@ const count = getDifferenceInDays(value[0],value[1])
     />
 );
 
+
+
+
+
+const wishlist = () => {
+  axios.post(`http://localhost:5000/api/user/dataTowishlist/${id2.id}`,{USERID})
+}
+
+
+const getwishlistdata = () => {
+  try {
+    axios.post('http://localhost:5000/api/user/getdatafromwishlist',{USERID}).then((res)=>{
+      // console.log(res);
+      setWishListData(res.data.wishlist)
+      setRender(render+1)
+    })
+  } catch (error) {
+    
+  }
+}
+
+const removefromwishlist = () => {
+  try {
+    axios.post(`http://localhost:5000/api/user/removefromwishlist/${id2.id}`,{USERID}).then((res)=>{
+      // console.log(res);
+    })
+  } catch (error) {
+    
+  }
+}
+  
+
+let test = false;
+wishlistdata.filter((item)=>{
+  if(item === carData._id){
+    test = true;
+  }else{
+    test =false
+  }
+})
+
+
+
+
 useEffect(()=>{
   gettingData()
-
-
+  getwishlistdata()
 },[])
+
+useEffect(()=>{
+  console.log("This useeffect is for rendering wishlist");
+},[render])
+
 
 
 
@@ -109,13 +169,11 @@ useEffect(()=>{
           <CardMedia
         component="img"
         height="140"
-        style={{height:'auto',objectFit:'contain'}}
+        style={{height:'auto',objectFit:'contain',border:'1px solid black'}}
         alt="Image Loaded Failed"
         image={carData.imgUrl}
-        // image='https://upload.wikimedia.org/wikipedia/commons/9/9d/2019_Lexus_NX_300h_Takumi_CVT_2.5.jpg'
       />
 
-          {/* <img src={'../../assets/CarImg/'+{carId}.jpg} alt="" /> */}
           </Paper>  
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -165,7 +223,15 @@ useEffect(()=>{
     </div>
     <div style={{justifyContent:'center',display:'flex',marginTop:20}} >
       {user ? 
-      <Button variant='outlined'  onClick={handleBookNow}  >Book Now</Button>
+     <div>
+        <Button variant='outlined'  onClick={handleBookNow}  >Book Now</Button>
+       {
+         test ?
+         <Button sx={{marginLeft:3}} onClick={removefromwishlist} >Remove from Wishlist </Button>
+         :
+         <Button sx={{marginLeft:3}} onClick={wishlist} >Add To Wishlist</Button>
+       }
+     </div>
       :
       <Typography  variant='p' component='h6' sx={{color:'red',border:'2px solid red',padding:1.5}} >
         Please Login To Book A Car! <SentimentDissatisfiedOutlinedIcon   />
@@ -310,7 +376,7 @@ useEffect(()=>{
                     </Typography>  
                  </Box>
                  <Typography variant='body2' sx={{margin:2}} >
-                   {carData.description}
+                   {carData.Longdescription}
                  </Typography>
                  <br/>
                 </Paper>

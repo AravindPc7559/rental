@@ -90,11 +90,16 @@ function Login() {
   const [otpstatus , setOtpStatus] = useState()
   const [loginDataByOtp , setLoginDataByOtp] = useState({})
   const [otpnumbererror , setOtpNumberError] = useState(false)
+  // const [email , setEmail] = useState('')
+  // const [password,setPassword]= useState('')
+  const {register , handleSubmit ,formState:{errors}} = useForm()
+
+  // console.log(email , password);
 
 
-  console.log(loginDataByOtp);
+  // console.log(loginDataByOtp);
 
-  console.log(otpstatus);
+  // console.log(otpstatus);
   // console.log(otp);
 
   // console.log(mobNumber);
@@ -128,13 +133,15 @@ function Login() {
   };
 
 
-  const {register , handleSubmit ,formState:{errors}} = useForm()
 
   const submitHandle = async(data) => {
 
       setLoading(true)
+      console.log(data);
+
     const {email,password} = data
 
+    // console.log(email);
 
     try {
 
@@ -167,9 +174,9 @@ function Login() {
 
   
 
-  const LoginWithOtpHandle = (e) => {
-      e.preventDefault()
-
+  const LoginWithOtpHandle = () => {
+      // e.preventDefault()
+      // console.log(data);
 
       try {
         
@@ -198,6 +205,8 @@ function Login() {
 
 
   }
+
+  
 
 
 
@@ -251,6 +260,7 @@ function Login() {
 
   
 
+  
 
   return (
     <div  className={classes.main}>
@@ -273,7 +283,6 @@ function Login() {
             type="email"
             fullWidth
             name="email"
-            // onChange={(e)=>setEmail(e.target.value)}
             {...register('email',{
                 required:"Email is required",pattern:{value:/^\S+@\S+$/i,message:"This is not a valid email"}
             })}
@@ -289,7 +298,6 @@ function Login() {
             type="password"
             fullWidth
            name="password"
-            // onChange={(e)=>setPassword(e.target.value)}
             {...register('password',{required:'Password is required' , minLength:{value:6,message:"Minimum length is 6 characters"}})}
           />
           <p style={{color:'red',fontSize:'12px'}} >{errors.password && errors.password.message}</p>
@@ -363,8 +371,10 @@ function Login() {
                 {otpnumbererror ? "Your Number is not registerd" : "Enter your Mobile Number"}
           </Typography>
           <form  onSubmit={LoginWithOtpHandle} >
+           {/* <p style={{color:'red',fontSize:'19px',textAlign:'center'}} >{errors.phone && errors.phone.message}</p> */}
            <div style={{display:'flex',justifyContent:'center'}} >
-           <input type="number" placeholder="Mobile Number" required style={{width:200,height:50,border:'1px solid black',textAlign:'center'}} maxLength={10}  onChange={(e)=>setMobNumber(e.target.value)} />
+           <input type="number" placeholder="Mobile Number" name="phone"   style={{width:200,height:50,border:'1px solid black',textAlign:'center'}}   onChange={(e)=>setMobNumber(e.target.value)} />
+           {/* <input value='Submit' type='submit' /> */}
            </div>
           <div style={{justifyContent:'center', display:'flex',marginTop:10}} >
           <Button style={{height:40,width:100}}  variant='outlined' type='submit' >LogIn</Button>
