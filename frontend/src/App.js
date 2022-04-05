@@ -13,6 +13,8 @@ import UserManagement from './Pages/AdminUsermanagement/UserManagement';
 import ProductPage from './Pages/ProductPage/ProductPage';
 import WishList from './Pages/Wishlist/WishList';
 import DistrictManagement from './Pages/DistrictManagement/DistrictManagement';
+import Profile from './Pages/Profile/Profile';
+import BookingPage from './Pages/BookingPage/BookingPage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Routes>
         <Route path='/admin/addcars' element={<AddCars/>} />
         <Route path='/productpage/:id' element={<ProductPage/>} />
+        <Route path='/profile/:id'  element={<Profile/>} />
+        <Route path='/booking/:id' element={<BookingPage/>} />
         <Route path='/admin/usermanagement' element={<UserManagement/>} />
         <Route path='/admin/districtmanagement' element={<DistrictManagement/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />

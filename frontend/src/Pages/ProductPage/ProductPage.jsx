@@ -1,6 +1,6 @@
 import Paper from '@mui/material/Paper';
 import { Button, CardMedia, Container, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AppBarHeader from '../../Components/AppBar/AppBar'
 import TextField from '@mui/material/TextField';
 import DateRangePicker from '@mui/lab/DateRangePicker';
@@ -11,6 +11,7 @@ import ProductReview from '../../Components/ProductReview/ProductReview';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../../Components/Footer/Footer'
+import { useNavigate } from 'react-router-dom'
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
@@ -20,9 +21,11 @@ function ProductPage(id) {
   const [carData , setCarData] = useState({})
   const [carId, setCarID] = useState()
   const [wishlistdata,setWishListData] = useState([])
-  const [render, setRender] = useState(10)
   const id2 = useParams()
+  const [update, setUpdate] = useState(0)
+  const navigate = useNavigate()
 
+  
   // console.log(wishlistdata);
 
   // console.log(carId);
@@ -75,12 +78,6 @@ const count = getDifferenceInDays(value[0],value[1])
 
     const totalAmount = dummyAmount*count
   
-  const handleBookNow = () => {
-
-
-  
-
-  }
 
 
 
@@ -109,8 +106,8 @@ const getwishlistdata = () => {
     axios.post('http://localhost:5000/api/user/getdatafromwishlist',{USERID}).then((res)=>{
       // console.log(res);
       setWishListData(res.data.wishlist)
-      setRender(render+1)
     })
+    setUpdate(update+1)
   } catch (error) {
     
   }
@@ -144,9 +141,7 @@ useEffect(()=>{
   getwishlistdata()
 },[])
 
-useEffect(()=>{
-  console.log("This useeffect is for rendering wishlist");
-},[render])
+
 
 
 
@@ -224,7 +219,7 @@ useEffect(()=>{
     <div style={{justifyContent:'center',display:'flex',marginTop:20}} >
       {user ? 
      <div>
-        <Button variant='outlined'  onClick={handleBookNow}  >Book Now</Button>
+        <Button variant='outlined'  onClick={()=>navigate(`/booking/${id2.id}`)}  >Book Now</Button>
        {
          test ?
          <Button sx={{marginLeft:3}} onClick={removefromwishlist} >Remove from Wishlist </Button>

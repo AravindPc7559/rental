@@ -14,7 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AnimatedText from 'react-animated-text-content';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 
 
@@ -69,11 +69,21 @@ function AppBarHeader(props) {
 
     const [logout,setLogout] = useState(false)
     const navigate = useNavigate();
+    const [userId , setUserId] = useState()
     const [adminlogout,setAdminLogout] = useState(false)
     const loc = JSON.parse(localStorage.getItem('userInfo'))
+    
+   
     // console.log(loc.name);
 
+    
 
+
+    const data = () => {
+      if(loc){
+        setUserId(loc._id)
+      }
+    }
 
       //   Logout handling
       const logoutHandle = () =>{
@@ -128,7 +138,7 @@ function AppBarHeader(props) {
   
       {loc ?
       <div>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={()=>navigate(`/profile/${userId}`)}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Booking History</MenuItem>
       <MenuItem onClick={logoutHandle}>Logout</MenuItem>
       </div>
@@ -172,6 +182,9 @@ function AppBarHeader(props) {
   );
 
 
+  useEffect(()=>{
+    data()
+  },[])
 
 
 
@@ -196,26 +209,10 @@ function AppBarHeader(props) {
           sx={{ display: { xs: 'none', sm: 'block' } }}
         >
           {
-              props.admin ? null : "ROADSTER"
+              props.admin ? null : <Link to='/' style={{color:'white',textDecoration:'none'}} >ROADSTER</Link>
           }
         </Typography>
 
-{/* SearchBOX */}
-
-       {/* {
-           props.admin ? 
-
-           null :
-           <Search>
-           <SearchIconWrapper>
-             <SearchIcon />
-           </SearchIconWrapper>
-           <StyledInputBase
-             placeholder="Search…"
-             inputProps={{ 'aria-label': 'search' }}
-           />
-         </Search>
-       } */}
 
 
 

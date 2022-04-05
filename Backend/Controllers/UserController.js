@@ -7,7 +7,7 @@ const serviceSID =  process.env.SERVICESID
 const AccountSID = process.env.ACCOUNTSID
 const AuthTOKEN  = process.env.AUTHTOKEN
 const client = require('twilio')(AccountSID,AuthTOKEN)
-
+const bcrypt = require("bcrypt");
 
 //user register
 
@@ -385,4 +385,100 @@ const removefromwishlist = asyncHandler(async(req,res)=>{
   // console.log(carId);
 })
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist};
+const getprofileuserdata = asyncHandler(async(req,res)=>{
+  // console.log(req.params.id);
+  const id = req.params.id
+
+  const user = await User.findById({"_id":id})
+
+  if(user){
+    res.status(200).json({
+      user
+    })
+  }else{
+    res.status(400).send("error while getting data from database in profile")
+  }
+
+})
+
+
+const userupdate = asyncHandler(async(req,res)=>{
+  // console.log(req.body);
+  const userId = req.params.id
+  // console.log(userId);
+
+
+  const data={
+    name:req.body.name,
+    email:req.body.email,
+    phone:req.body.phone,
+    gender:req.body.gender,
+    district:req.body.district,
+    age:req.body.age,
+    address:req.body.address
+  }
+
+  // console.log(data);
+
+
+  try {
+    const carsData = await User.findByIdAndUpdate(userId,data,{
+      new:true,
+      runValidators:true,
+      useFindAndModify:false
+  })
+
+  res.status(200).json({message:"Data Updated"})
+
+  } catch (error) {
+      res.status(400).json({message:"Data Not Found"})
+  }
+})
+
+
+const passwordreset = asyncHandler(async(req,res)=>{
+  // console.log(req.params.id);
+  const id = req.params.id
+  const passwordText = req.body.password
+  const saltRounds = 10;
+ 
+
+  const Bcryptpassword = await bcrypt.hash(passwordText , saltRounds)
+
+  console.log(Bcryptpassword);
+
+
+
+
+  const password = {
+    password:Bcryptpassword
+  }
+
+
+try {
+  const data = await User.findByIdAndUpdate(id,password,{
+    new:true,
+    runValidators:true,
+    useFindAndModify:false
+  })
+
+  res.status(200).json({
+    message:"Password Reset Successfully"
+  })
+} catch (error) {
+  res.status(400).json({
+    message:"Password reset Failed"
+  })
+}
+
+
+
+
+
+// const user = await User.findById({"_id":id})
+
+ 
+
+})
+
+module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset};
