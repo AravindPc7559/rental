@@ -1,6 +1,6 @@
 const express = require('express')
 const Adminrouter = express.Router();
-const {Adminlogin,AddCarRoute,deletecar,getAllCarDeatails,UpdateCarData , userManagement ,userManagementUpdate , usermanagementUpdateUnblock ,addDistrict , getdistrictData , deleteDistrict} = require('../Controllers/AdminController.js')
+const {Adminlogin,AddCarRoute,deletecar,getAllCarDeatails,UpdateCarData , userManagement ,userManagementUpdate , usermanagementUpdateUnblock ,addDistrict , getdistrictData , deleteDistrict , couponmanagement , getcoupon ,deletecoupon } = require('../Controllers/AdminController.js')
 
 
 Adminrouter.route('/adminlogin').post(Adminlogin)
@@ -25,5 +25,11 @@ Adminrouter.route('/addDistrict').post(addDistrict)
 Adminrouter.route('/getdistrictData').get(getdistrictData)
 
 Adminrouter.route('/deleteDistrict').post(deleteDistrict)
+
+Adminrouter.route('/couponmanagement').post(couponmanagement)
+
+Adminrouter.route('/getcoupon').get(getcoupon)
+
+Adminrouter.route('/deletecoupon/:id').post(deletecoupon)
 
 module.exports =  Adminrouter;

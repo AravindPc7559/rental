@@ -3,11 +3,15 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../Unitl/jwt");
 const AddCar = require('../Model/CarModel/CarModel')
 const Review = require('../Model/ProductReviewModel/ProductReview')
+const districtSchema = require('../Model/DistrictModel/DistrictModel')
+
 const serviceSID =  process.env.SERVICESID
 const AccountSID = process.env.ACCOUNTSID
 const AuthTOKEN  = process.env.AUTHTOKEN
 const client = require('twilio')(AccountSID,AuthTOKEN)
 const bcrypt = require("bcrypt");
+const AppliedCoupon = require("../Model/ApplyCoupon/ApplyCoupon");
+const CouponModel = require("../Model/Coupon/Coupon");
 
 //user register
 
@@ -263,7 +267,7 @@ const dataTowishlist = asyncHandler(async(req,res)=>{
   await user.save()
 
 
-  console.log(user);
+  // console.log(user);
 
 
   if(user){
@@ -279,7 +283,7 @@ const getdatafromwishlist = asyncHandler(async(req,res)=>{
 
   const id = req.body.USERID
 
-  console.log(id);
+  // console.log(id);
 
   const user = await User.findById({"_id":id})
 
@@ -471,14 +475,80 @@ try {
   })
 }
 
+})
 
+const getdistrict =  asyncHandler(async(req,res)=>{
 
+  const Getdistrict = await districtSchema.find({})
 
+//  console.log(Getdistrict);
 
-// const user = await User.findById({"_id":id})
-
- 
+  if(Getdistrict){
+    res.status(200).json({
+      Getdistrict
+    })
+  }else{
+    res.status(400).json({
+      message:"District Not Found!"
+    })
+  }
 
 })
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset};
+
+const searchdistrict = asyncHandler(async(req,res)=>{
+  const location = req.body.place
+
+  console.log(location);
+
+  const data = await AddCar.find({"location":location}).collation( { locale: 'en', strength: 2 } )
+
+
+    if(data){
+      res.status(200).json({
+        data
+      })
+    }else{
+      res.status(400).json({
+        message:"No Data is there"
+      })
+    }
+
+  console.log(data);
+})
+
+const applycoupon = asyncHandler(async(req,res)=>{
+  
+  const userId = req.body.USERID
+  const Code = req.body.CouponApply
+
+  console.log(userId , Code);
+
+  const data = await AppliedCoupon.findOne({"CouponCode":Code,"UserId":userId})
+
+  if(data){
+    console.log("already exist");
+    res.json({
+      message:"You are already applied this coupon"
+    })
+  }else{
+    // await AppliedCoupon.create({"CouponCode":Code,"UserId":userId})
+   const data =  await CouponModel.findOne({"CouponCode":Code})
+    
+  //  console.log(data);
+
+   if(data){
+    res.status(200).json({
+      data,
+      message:"Coupon apply successfully"
+    })
+   }else{
+     console.log("NO COUPON");
+   }
+  }
+  
+
+
+})
+
+module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon};

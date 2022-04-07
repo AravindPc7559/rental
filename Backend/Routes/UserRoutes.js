@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset} = require('../Controllers/UserController')
+const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon} = require('../Controllers/UserController')
 
 
 
@@ -41,5 +41,11 @@ router.route('/getprofileuserdata/:id').get(getprofileuserdata)
 router.route('/userupdate/:id').patch(userupdate)
 
 router.route('/passwordreset/:id').patch(passwordreset)
+
+router.route('/getdistrict').get(getdistrict)
+
+router.route('/searchdistrict').post(searchdistrict)
+
+router.route('/applycoupon').post(applycoupon)
 
 module.exports = router;

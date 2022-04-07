@@ -14,6 +14,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Popper from '@mui/material/Popper';
 import { Box } from '@mui/system';
+import CloseIcon from '@mui/icons-material/Close';
+import District from '../DistrictSelecting/District';
+import { useSelector } from 'react-redux';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };    
@@ -36,8 +39,9 @@ function Cards() {
     const [searchData , setSearchData] = useState([])
     const [lowtohighdata , setLowToHighData]= useState([])
     const [hightolowdata , setHighToLowData] = useState([])
-
-   
+    const [ HighToLow,  SetHighToLow] = useState(false)
+    const [LowToHigh , SetLowToHigh] = useState(false)
+    const [SearchData , SetSearchData] = useState(false)
     // console.log(carsData);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -87,11 +91,6 @@ function Cards() {
     }
  
 
-   useEffect(()=>{
-         GetCars()
-         Datas()
-   },[render]);
-
 
 
 
@@ -108,6 +107,7 @@ function Cards() {
         // console.log(res.data.data);
         setSearchData(res.data.data)
       })
+      SetSearchData(true)
      } catch (error) {
         console.log("error occured while searching",error);
      }
@@ -122,6 +122,8 @@ function Cards() {
           // console.log(res);
           setLowToHighData(res.data.sort)
         })
+        SetLowToHigh(true)
+        SetHighToLow(false)
      } catch (error) {
         console.log("error occured while sorting",error);
      }
@@ -133,13 +135,27 @@ function Cards() {
         //  console.log(res);
          setHighToLowData(res.data.sorttwo)
        })
+       SetHighToLow(true)
+       SetLowToHigh(false)
      } catch (error) {
        
      }
    }
     
   
-  //  console.log(hightolowdata);
+  const handleSearchClear = () => {
+      console.log("clearing");
+      SetSearchData(false)
+  }
+  
+const DistrictSort = useSelector((state)=>state.DisSort)
+
+
+
+  useEffect(()=>{
+    GetCars()
+    Datas()
+},[render]);
 
 
 
@@ -148,19 +164,23 @@ function Cards() {
      
         <Div>{"Choose your car."}</Div>
         <br/>
-
+        
         <Container>
         <Grid container spacing={4} >
                     <Grid item sm={12} xs={12} md={6} lg={4} xl={4} >
-                           <Box marginLeft={2} >
-                           <TextField id="outlined-basic" label="Search Cars"  onChange={(e)=>setSearchText(e.target.value)}   />
-                            <Button variant='contained'  sx={{marginTop:1,marginLeft:1}} onClick={handleSearch} >Search</Button>
+                           <Box sx={{display:'flex'}}  >
+                             <Box>
+                             <TextField id="outlined-basic" label="Search Cars"  onChange={(e)=>setSearchText(e.target.value)} InputProps={{endAdornment:<CloseIcon onClick={handleSearchClear} style={{cursor:'pointer'}} ></CloseIcon>}}  />
+                             </Box>
+                            <Box  sx={{marginLeft:2}}>
+                            <Button variant='contained'  sx={{marginTop:1}} onClick={handleSearch} >Search</Button>
+                            </Box>
                            </Box>
                     </Grid>
 
                       
                     <Grid item sm={12} xs={12} md={6} lg={4} xl={4} >
-                      <Box sx={{marginTop:1 , border:'1px solid black'  ,maxWidth:400}} >
+                      <Box sx={{marginTop:1 ,marginLeft:4,maxWidth:400}} >
                       <Button aria-describedby={id} type="button" style={{marginLeft:140}} onClick={handleClick}>
         Filter
       </Button>
@@ -175,8 +195,8 @@ function Cards() {
                     </Grid>
 
                     <Grid sm={12} xs={12} md={6} lg={4} xl={4} >
-                    <Box sx={{ minWidth: 120 }} marginTop={1.5}  >
-                        
+                    <Box sx={{marginTop:1 ,marginLeft:4 , maxWidth:400}} >
+                        <District/>
                      </Box>
                     </Grid>
 
@@ -188,12 +208,12 @@ function Cards() {
           
 
             {
-              searchData.length > 0 ?
+              SearchData ?
 
               <Grid container >
               
               {
-                  searchData.slice(0,visible).map((obj)=>{
+                  searchData.slice(0,visible).map((obj,index)=>{
                       return(
                        <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
@@ -201,6 +221,7 @@ function Cards() {
                component="img"
                alt="green iguana"
                height='140'
+               key={index}
                style={{height:300,objectFit:'contain'}}
                image={obj.imgUrl}
              />
@@ -240,13 +261,13 @@ function Cards() {
 
                
            </Grid>
-                : lowtohighdata.length > 0 ? 
+                : LowToHigh  ? 
 
 
                 <Grid container >
               
               {
-                  lowtohighdata.slice(0,visible).map((obj)=>{
+                  lowtohighdata.slice(0,visible).map((obj,index)=>{
                       return(
                        <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
@@ -254,6 +275,7 @@ function Cards() {
                component="img"
                alt="green iguana"
                height='140'
+               key={index}
                style={{height:300,objectFit:'contain'}}
                image={obj.imgUrl}
              />
@@ -295,12 +317,12 @@ function Cards() {
            </Grid>
 
 
-                : hightolowdata.length > 0 ?
+                : HighToLow ?
 
                 <Grid container >
-              
+                  
                 {
-                    hightolowdata.slice(0,visible).map((obj)=>{
+                    hightolowdata.slice(0,visible).map((obj,index)=>{
                         return(
                          <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
                          <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
@@ -308,6 +330,7 @@ function Cards() {
                  component="img"
                  alt="green iguana"
                  height='140'
+                 key={index}
                  style={{height:300,objectFit:'contain'}}
                  image={obj.imgUrl}
                />
@@ -348,13 +371,76 @@ function Cards() {
                  
              </Grid>
 
+                : DistrictSort .length > 0 ?  
+                
+                
+                <Grid container >
+              
+                {
+                    DistrictSort.slice(0,visible).map((obj,index)=>{
+                        return(
+                         <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                         <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:650}} className='card' >
+               <CardMedia
+                 component="img"
+                 alt="green iguana"
+                 height='140'
+                 key={index}
+                 style={{height:300,objectFit:'contain'}}
+                 image={obj.imgUrl}
+               />
+               <CardContent>
+                <div style={{display:'flex',justifyContent:'space-between'}} >
+                <Typography gutterBottom variant="h5" component="div">
+                   {obj.brand}
+                   {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
+                 </Typography>
+                 <Typography gutterBottom variant="BUTTON TEXT" component="div">
+                   ${obj.price}/Day
+                 </Typography>
+                </div>
+                 <Typography variant="subtitle2" color="text.secondary">
+                     Available in :{obj.location}
+                 </Typography>
+                 <Typography variant="body2" color="text.secondary" marginTop={1}>
+                   {obj.description}
+                 </Typography>
+               </CardContent>
+               <CardActions style={{bottom:0 , position:'absolute'}} >
+                 <Button className='btn' onClick={()=>navigate(`/productpage/${obj._id}`)} style={{color:'white',margin:10,backgroundColor:'#016DD9'}}>BOOK NOW</Button> 
+              
+              
+                      {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Remove from wishlist</Button>    */}
+                      {/* <Button  onClick={()=>wishlist(`${obj._id}`)} >Add to wishlist</Button>   */}
+                
+                 
+                 
+               </CardActions>
+             </Card>
+  
+           
+         
+                         </Grid>
+                         
+                        )
+                        
+                    })
+                    
+                }
+  
+                 
+             </Grid>
+                
+                
+                
+                
                 :
 
 
                 <Grid container >
               
               {
-                  carsData.slice(0,visible).map((obj)=>{
+                  carsData.slice(0,visible).map((obj,index)=>{
                       return(
                        <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:650}} className='card' >
@@ -362,6 +448,7 @@ function Cards() {
                component="img"
                alt="green iguana"
                height='140'
+               key={index}
                style={{height:300,objectFit:'contain'}}
                image={obj.imgUrl}
              />

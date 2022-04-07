@@ -14,6 +14,9 @@ import Footer from '../../Components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { useDispatch} from 'react-redux'
+import { format, toDate } from 'date-fns'
+
 
 function ProductPage(id) {
   const [value, setValue] = React.useState([null, null]);
@@ -22,18 +25,29 @@ function ProductPage(id) {
   const [carId, setCarID] = useState()
   const [wishlistdata,setWishListData] = useState([])
   const id2 = useParams()
-  const [update, setUpdate] = useState(0)
+  const [update, setUpdate] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [bookStatus , setBookStatus] = useState(false)
+  const [removeWishlistRender , setRemoveWishlistRender] = useState(false)
 
+    const val = format(new Date(value[0]) ,'dd/MM/yyyy ')
+    const val2 = format(new Date(value[1]) ,'dd/MM/yyyy ')
+
+// console.log(val);
+// console.log(val2);
+
+
+
+  // console.log(value);
   
   // console.log(wishlistdata);
 
   // console.log(carId);
 
   const user = localStorage.getItem('userInfo')
-  const userId = JSON.parse(user)
-  const USERID = userId._id
-
+  const userId = JSON.parse(user) 
+  const USERID = user ? userId._id : null
    
   // console.log(carData);
   
@@ -72,14 +86,34 @@ function ProductPage(id) {
 
 
 
+
 const count = getDifferenceInDays(value[0],value[1])
 
     // console.log(count);
 
     const totalAmount = dummyAmount*count
+
+
+    dispatch({
+      type:'CarDetails',
+      payload:carData
+    })  
+
+    dispatch({
+      type:'date',
+      payload:val
+    })
   
-
-
+    dispatch({
+      type:'endDate',
+      payload:val2
+    })
+    
+    dispatch({
+      type:'Total',
+      payload:totalAmount
+    })
+   
 
   const ColoredLine = ({ color }) => (
     <hr
@@ -97,7 +131,10 @@ const count = getDifferenceInDays(value[0],value[1])
 
 
 const wishlist = () => {
-  axios.post(`http://localhost:5000/api/user/dataTowishlist/${id2.id}`,{USERID})
+  axios.post(`http://localhost:5000/api/user/dataTowishlist/${id2.id}`,{USERID}).then((res)=>{
+    // console.log(res);
+  })
+  setUpdate(true)
 }
 
 
@@ -107,7 +144,7 @@ const getwishlistdata = () => {
       // console.log(res);
       setWishListData(res.data.wishlist)
     })
-    setUpdate(update+1)
+    
   } catch (error) {
     
   }
@@ -118,6 +155,7 @@ const removefromwishlist = () => {
     axios.post(`http://localhost:5000/api/user/removefromwishlist/${id2.id}`,{USERID}).then((res)=>{
       // console.log(res);
     })
+    setRemoveWishlistRender(true)
   } catch (error) {
     
   }
@@ -136,11 +174,18 @@ wishlistdata.filter((item)=>{
 
 
 
-useEffect(()=>{
+useEffect(()=>{ 
   gettingData()
   getwishlistdata()
-},[])
 
+
+  // if(totalAmount === 0){
+      //   navigate('/')
+      // }
+ 
+
+
+},[update,removeWishlistRender])
 
 
 
@@ -177,28 +222,34 @@ useEffect(()=>{
                 <Typography variant='h6' component='p' >
                   Choose Your Booking Date
                 </Typography>
+              
               </div>
           <Paper elevation={0} style={{height:'auto',background:'none'}} >
             <Box sx={{justifyContent:'center',display:'flex' , paddingTop:10 }}>
+             
           <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateRangePicker
         startText="Trip-starts"
         endText="Trip-ends"
         value={value}
+        minDate={Date.now()}
         onChange={(newValue) => {
           setValue(newValue);
         }}
         renderInput={(startProps, endProps) => (
           <React.Fragment>
-            <TextField {...startProps} />
+            <TextField {...startProps} autoComplete='off' />
             <Box sx={{ mx: 2 }}> to </Box>
-            <TextField {...endProps} />
+            <TextField {...endProps} autoComplete='off' />
           </React.Fragment>
         )}
       />
     </LocalizationProvider>
     </Box>
-    
+    <Box sx={{display:'flex' , justifyContent:'center'}} paddingTop={1}>
+    { bookStatus ? <label style={{color:'red'}} >Please Select A Date!!</label> : null}
+    </Box>
+  
     <ColoredLine color="black" />
     <div style={{justifyContent:'center',display:'flex'}} >
       <Typography variant='h3' component='h2' >
@@ -219,7 +270,9 @@ useEffect(()=>{
     <div style={{justifyContent:'center',display:'flex',marginTop:20}} >
       {user ? 
      <div>
-        <Button variant='outlined'  onClick={()=>navigate(`/booking/${id2.id}`)}  >Book Now</Button>
+        {
+          totalAmount === 0 ? <Button variant='outlined' onClick={()=>setBookStatus(true)}  >Book Now</Button> : <Button variant='outlined'  onClick={()=>navigate(`/booking/${id2.id}`)}  >Book Now</Button>
+        }
        {
          test ?
          <Button sx={{marginLeft:3}} onClick={removefromwishlist} >Remove from Wishlist </Button>

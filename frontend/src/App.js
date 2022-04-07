@@ -15,15 +15,20 @@ import WishList from './Pages/Wishlist/WishList';
 import DistrictManagement from './Pages/DistrictManagement/DistrictManagement';
 import Profile from './Pages/Profile/Profile';
 import BookingPage from './Pages/BookingPage/BookingPage';
+import {Provider} from 'react-redux'
+import store from './Redux/Store';
+import CouponManagement from './Pages/CouponManagemnet/CouponManagement';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <Provider store={store} >
+      <BrowserRouter  >
       <Routes>
         <Route path='/admin/addcars' element={<AddCars/>} />
         <Route path='/productpage/:id' element={<ProductPage/>} />
         <Route path='/profile/:id'  element={<Profile/>} />
+        <Route path='/admin/coupon'  element={<CouponManagement/>} />
         <Route path='/booking/:id' element={<BookingPage/>} />
         <Route path='/admin/usermanagement' element={<UserManagement/>} />
         <Route path='/admin/districtmanagement' element={<DistrictManagement/>} />
@@ -38,6 +43,7 @@ function App() {
         <Route path='*' element={<NotFoundPage/>} />
       </Routes>
       </BrowserRouter>
+      </Provider>
     </div>
   );
 }

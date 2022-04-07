@@ -108,6 +108,7 @@ function SideBar(props) {
       </List>
       <Divider />
       <List>
+      <Link to='/admin/coupon' style={{textDecoration:'none' ,color:'black'}} >
           <ListItem button >
             <ListItemIcon>
              <DiscountOutlinedIcon />
@@ -115,6 +116,7 @@ function SideBar(props) {
             <h6>Manage Coupon</h6>
             <ListItemText />
           </ListItem>
+          </Link>
       </List>
       <Divider />
       <List>

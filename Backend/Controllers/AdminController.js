@@ -4,7 +4,9 @@ const generateToken = require("../Unitl/jwt");
 const asyncHandler = require("express-async-handler");
 const fs = require('fs')
 const User = require('../Model/UserModel/userModel')
-const districtSchema = require('../Model/DistrictModel/DistrictModel')
+const districtSchema = require('../Model/DistrictModel/DistrictModel');
+const CouponModel = require('../Model/Coupon/Coupon');
+
 
 // login route
 
@@ -26,6 +28,7 @@ const Adminlogin = asyncHandler(async (req, res) => {
         throw new Error("NOT VALID")
     }
 })
+
 
 
 const AddCarRoute = asyncHandler(async (req, res) => {
@@ -98,6 +101,7 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
         brand :req.body.brand,
         model:req.body.model,
         fueltype:req.body.fueltype,
+        location:req.body.location,
         RegNo:req.body.RegNo,
         price:req.body.price,
         seats:req.body.seats,
@@ -244,4 +248,70 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
 
  })
 
-module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict}
+
+ const couponmanagement  = asyncHandler(async(req,res)=>{
+
+
+    const coupon = req.body.couponname;
+    const discount = req.body.discount
+    const CouponCode = req.body.CouponCode
+
+    console.log(coupon , discount);
+
+    const data = await CouponModel.create({"couponname":coupon , "discount":discount , "CouponCode":CouponCode})
+
+    if(data){
+        res.status(200).json({
+            message:"Coupon Added Succesfully"
+        })
+    }else{
+        res.status(400).json({
+            message:"Data Could Not Added to the Database"
+        })
+    }
+
+ })
+
+
+ const getcoupon  = asyncHandler(async(req,res)=>{
+     
+
+    const data = await CouponModel.find({})
+
+    if(data){
+        res.status(200).json({
+            data,
+            message:"Showing Data Successfull"
+        })
+    }else{
+        res.status(400).json({
+            message:"Showing Data Failed..."
+        })
+    }
+ })
+
+ const deletecoupon = asyncHandler(async(req,res)=>{
+     console.log(req.params.id);
+     const id = req.params.id
+
+    const data = await CouponModel.findById({"_id":id})
+
+    if(data){
+        await data.remove()
+
+        res.status(200).json({
+            message:"Coupon removed Succesfully"
+        })
+    }else{
+        res.status(400).json({
+            message:"Coupon not removed"
+        })
+    }
+
+    
+ })
+ 
+
+
+
+module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon}
