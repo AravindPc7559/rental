@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon} = require('../Controllers/UserController')
+const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon ,razorpay ,razorpaysuccess , bookingdata , cancel,getcoupon} = require('../Controllers/UserController')
 
 
 
@@ -47,5 +47,15 @@ router.route('/getdistrict').get(getdistrict)
 router.route('/searchdistrict').post(searchdistrict)
 
 router.route('/applycoupon').post(applycoupon)
+
+router.route('/razorpay').post(razorpay)
+
+router.route('/razorpaysuccess/:id').post(razorpaysuccess)
+
+router.route('/bookingdata').post(bookingdata)
+
+router.route('/cancel/:id').post(cancel)
+
+router.route('/getcoupon').post(getcoupon)
 
 module.exports = router;

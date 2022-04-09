@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Button, Container, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import SideBar from '../../Components/SideBar/SideBar'
 import TextField from '@mui/material/TextField';
@@ -6,6 +6,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
+import TableBody from '@mui/material/TableBody';
 
 
 const style = {
@@ -128,14 +129,14 @@ function DistrictManagement() {
             </Box>
 
                 <Grid container>
-                    {
+                    {/* {
                         districtData.map((data)=>{
                             return(
                                 <Grid item xs={4} sm={4} md={4} lg={4} xl={4} >
                                 <Box style={{marginLeft:50,marginTop:50}} >
                             <div style={{display:'flex',width:350,height:60}} >
                                 <div style={{marginTop:10,marginLeft:4}} >
-                                <Typography variant='h6' >{data.district}</Typography>
+                                <Typography variant='h6' ></Typography>
                                 </div>  
                                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
                                <div style={{marginTop:10,marginLeft:20}}>
@@ -150,7 +151,44 @@ function DistrictManagement() {
                             </Grid>
                             )
                         })
-                    }
+                    } */}
+
+<Box sx={{width:400,marginLeft:75}} marginTop={3}>
+
+<TableContainer component={Paper}>
+<Table sx={{ maxWidth: 600 }} aria-label="simple table">
+<TableHead>
+<TableRow>
+<TableCell align="center">District</TableCell>
+<TableCell align="center">Action</TableCell>
+</TableRow>
+</TableHead>
+<TableBody>
+{
+    districtData.map((data,index)=>{
+        return(
+
+<TableRow
+  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+  key={index}
+>
+                    
+ {/* <TableCell component="th" scope="row"  >
+    {Obj.couponname}
+  </TableCell> */}
+  <TableCell align="center">{data.district}</TableCell>
+  <TableCell align="center">  <Button variant='contained' color='error' onClick={()=>dltFun(`${data._id}`)} ><DeleteOutlineIcon/></Button></TableCell>
+                    
+</TableRow>
+            )
+        })
+    }
+ 
+</TableBody>
+</Table>
+</TableContainer>
+
+</Box>
                     
           </Grid>
         </Box>

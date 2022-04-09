@@ -147,7 +147,7 @@ function UserManagement() {
     <div>
       <SideBar/>
       <Box sx={{paddingLeft:30 }}>
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: '100vh', width: '100%' }}>
       <MaterialTable
       title="USER MANAGEMENT"
       columns={columns} 

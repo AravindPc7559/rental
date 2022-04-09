@@ -16,6 +16,19 @@ import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Snackbar from '@mui/material/Snackbar';
 import {useDispatch} from 'react-redux'
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'white',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 function CouponManagement() {
@@ -26,6 +39,20 @@ function CouponManagement() {
     const [dltRender , setDltRender] = useState(false)
     const [SnackMessage , SetSnackMessage] = useState('')
     const [CouponCode , SetCouponCode] = useState('')
+    const [deleteId , setDeleteId ] = useState('')
+
+
+    //modal
+    const [openmodal, setOpenmodal] = useState(false);
+    const handleOpen = () => setOpenmodal(true);
+    const handleClosemodal = () => setOpenmodal(false);
+
+
+    const deleteData = (id) => {
+      setDeleteId(id)
+      setOpenmodal(true);
+    }
+    //
 
 
 // snackbar
@@ -56,6 +83,7 @@ const [state, setState] = React.useState(false)
             })
             setAddRender(true)
             setState(true);
+            
           } catch (error) {
               console.log(error);
           }
@@ -77,12 +105,13 @@ const [state, setState] = React.useState(false)
             console.log(id);
 
             try {
-                axios.post(`http://localhost:5000/api/admin/deletecoupon/${id}`).then((res)=>{
+                axios.post(`http://localhost:5000/api/admin/deletecoupon/${deleteId}`).then((res)=>{
                     // console.log(res.data.message);
                     SetSnackMessage(res.data.message)
                 })
                 setDltRender(true)
                 setState(true);
+                setOpenmodal(false)
             } catch (error) {
                     console.log(error);
             }
@@ -101,6 +130,24 @@ const [state, setState] = React.useState(false)
     <div>
         <SideBar/>
 
+        <Modal
+        open={openmodal}
+        onClose={handleClosemodal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" textAlign='center' component="h2">
+            Are you sure want to Delete
+          </Typography>
+      <Box sx={{justifyContent:'center',display:'flex'}} >
+      <Button onClick={handleDelete} >Yes</Button>
+      <Button onClick={()=>setOpenmodal(false)} >No</Button>
+      </Box>
+        </Box>
+      </Modal>
+
+
         {/* SnackBar */}
         <Snackbar
         open={state}
@@ -111,7 +158,7 @@ const [state, setState] = React.useState(false)
         {/*  */}
 
         <Box sx={{paddingLeft:35 ,justifyContent:'center'}} >
-            <Box sx={{height:350,width:400,border:'3px solid black',marginLeft:70}} >
+            <Box sx={{height:390,width:400,border:'3px solid black',marginLeft:70}} >
                     <Typography textAlign='center' variant='h5' component='h6' mt={3} fontFamily='egoe UI' >
                         Coupon Management
                     </Typography>
@@ -128,7 +175,7 @@ const [state, setState] = React.useState(false)
 
 
 
-            <Box sx={{width:600,marginLeft:60}} marginTop={3}>
+            <Box sx={{width:600,marginLeft:57}} marginTop={3}>
 
             <TableContainer component={Paper}>
       <Table sx={{ maxWidth: 600 }} aria-label="simple table">
@@ -155,7 +202,7 @@ const [state, setState] = React.useState(false)
               </TableCell>
               <TableCell align="center">$ {Obj.discount}</TableCell>
               <TableCell align="center">{Obj.CouponCode}</TableCell>
-              <TableCell align="center"><Button style={{color:'red'}} onClick={()=>handleDelete(`${Obj._id}`)} >Delete <DeleteIcon/> </Button></TableCell>
+              <TableCell align="center"><Button style={{color:'red'}} onClick={()=>deleteData(`${Obj._id}`)} >Delete <DeleteIcon/> </Button></TableCell>
                                 
             </TableRow>
                         )

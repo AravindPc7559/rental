@@ -55,7 +55,7 @@ const handleChange = (event, newValue) => {
   
 const getCoupon = () => {
   try {
-      axios.get('http://localhost:5000/api/admin/getcoupon').then((res)=>{
+      axios.post('http://localhost:5000/api/user/getcoupon',{USERID}).then((res)=>{
           // console.log(res.data.data);
           setShowCoupon(res.data.data)
           
@@ -74,16 +74,25 @@ const getCoupon = () => {
 
         try {
             axios.post('http://localhost:5000/api/user/applycoupon',{CouponApply , USERID}).then((res)=>{
-              // console.log(res.data.data);
+              // console.log(res.data);
               // setCouponData(res.data.data)
+        
               dispatch({
                 type:'discount',
                 payload:res.data.data.discount
               })
+              dispatch({
+                type:"DisAllData",
+                payload:res.data.data
+              })
+              dispatch({
+                type:"CouponMsg",
+                payload:res.data
+              })
             })
             SetPay(false);
         } catch (error) {
-          
+          console.log(error);
         }
 
 

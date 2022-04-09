@@ -14,7 +14,7 @@ img{
     }
 }
 
-.App{
+.carousel{
     position: relative;
     object-fit: contain;
 }

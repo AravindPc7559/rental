@@ -76,6 +76,7 @@ function SideBar(props) {
       </List>
       <Divider />
       <List>
+      <Link to='/admin/booking' style={{textDecoration:'none' ,color:'black'}} >
           <ListItem button >
             <ListItemIcon>
              <MenuBookOutlinedIcon />
@@ -83,6 +84,7 @@ function SideBar(props) {
             <h6>Booking</h6>
             <ListItemText />
           </ListItem>
+          </Link>
       </List>
       <Divider />
       <List>

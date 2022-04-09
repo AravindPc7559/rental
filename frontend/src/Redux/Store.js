@@ -7,7 +7,9 @@ const appreducer = combineReducers({
     car:CarData,
     Total:TotalAmount,
     DisSort:DistrictSort,
-    Discount:DiscountAmount
+    Discount:DiscountAmount,
+    DisAll:DiscountAllData,
+    message:CouponMessage
 })
 
 
@@ -58,11 +60,25 @@ function DiscountAmount(prevState = '' , action){
     switch(action.type){
         case 'discount':
                 return action.payload
-        default: return 0
+        default: return prevState
     }
 }
 
+function DiscountAllData(prevState = {} , action){
+    switch(action.type){
+        case 'DisAllData':
+                return action.payload
+        default: return  0
+    }
+}
 
+function CouponMessage(prevState = {} , action){
+    switch(action.type){
+        case 'CouponMsg':
+                return action.payload
+        default: return  prevState
+    }
+}
 
 const store = createStore(appreducer)
 

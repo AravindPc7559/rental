@@ -42,8 +42,7 @@ const CarModel = mongoose.Schema({
         required:true
     },
     imgUrl:{
-        type:String,
-        required:true
+        type:String
     },
     url:{
         type:String,

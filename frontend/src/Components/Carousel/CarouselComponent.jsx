@@ -41,7 +41,7 @@ const data = [
 function CarouselComponent() {
   const classes = useStyles();
   return (
-        <div className="App">
+        <div className="carousel">
         <Carousel fade>
   {
       data.map((obj)=>{
@@ -63,20 +63,7 @@ function CarouselComponent() {
   
 </Carousel>
 
-        {/* <div  className='searchBox'>
-        <input type="search" placeholder='search here' startAdornment={<InputAdornment position="start">
-          <SearchTwoToneIcon/>
-        </InputAdornment>} />
-          <TextField
-          id="outlined-basic"
-          variant="filled"
-          fullWidth
-          label="Search Here.."
-          className={classes.input}
-          inputProps={{ className: classes.input }}
-        />
-
-        </div> */}
+      
 
 
 

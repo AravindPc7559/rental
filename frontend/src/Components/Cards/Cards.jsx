@@ -152,6 +152,7 @@ const DistrictSort = useSelector((state)=>state.DisSort)
 
 
 
+
   useEffect(()=>{
     GetCars()
     Datas()
@@ -503,10 +504,10 @@ const DistrictSort = useSelector((state)=>state.DisSort)
         </Container> 
       <div style={{justifyContent:'center',display:'flex'}} >
           {
-              carsData.length === visible ?
-              null:
+              carsData.length === visible  ?
+              null: carsData.length  ?
 
-      <Button onClick={showMoreItem} variant='contained'  >Load More<ArrowDropDownIcon/></Button>
+      <Button onClick={showMoreItem} variant='contained'  >Load More<ArrowDropDownIcon/></Button> : null
           }
       
       {

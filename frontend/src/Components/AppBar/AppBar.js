@@ -139,7 +139,7 @@ function AppBarHeader(props) {
       {loc ?
       <div>
       <MenuItem onClick={()=>navigate(`/profile/${userId}`)}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Booking History</MenuItem>
+      <MenuItem onClick={()=>navigate('/bookinghistory')}>Booking History</MenuItem>
       <MenuItem onClick={logoutHandle}>Logout</MenuItem>
       </div>
       :

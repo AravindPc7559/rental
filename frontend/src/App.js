@@ -18,6 +18,9 @@ import BookingPage from './Pages/BookingPage/BookingPage';
 import {Provider} from 'react-redux'
 import store from './Redux/Store';
 import CouponManagement from './Pages/CouponManagemnet/CouponManagement';
+import BookingSuccess from './Pages/BookingSuccess/BookingSuccess';
+import BookingHistory from './Pages/BookingHistory/BookingHistory';
+import AdminBooking from './Pages/AdminBookingManagement/AdminBooking';
 
 function App() {
   return (
@@ -29,7 +32,10 @@ function App() {
         <Route path='/productpage/:id' element={<ProductPage/>} />
         <Route path='/profile/:id'  element={<Profile/>} />
         <Route path='/admin/coupon'  element={<CouponManagement/>} />
+        <Route path='/admin/booking'  element={<AdminBooking/>} />
         <Route path='/booking/:id' element={<BookingPage/>} />
+        <Route path='/bookingsuccess' element={<BookingSuccess/>} />
+        <Route path='/bookinghistory' element={<BookingHistory/>} />
         <Route path='/admin/usermanagement' element={<UserManagement/>} />
         <Route path='/admin/districtmanagement' element={<DistrictManagement/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />

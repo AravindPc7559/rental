@@ -6,6 +6,9 @@ const fs = require('fs')
 const User = require('../Model/UserModel/userModel')
 const districtSchema = require('../Model/DistrictModel/DistrictModel');
 const CouponModel = require('../Model/Coupon/Coupon');
+const Booking = require("../Model/Bookings/Bookings");
+const { aggregate } = require('../Model/AdminModel/adminModel');
+const { match } = require('assert');
 
 
 // login route
@@ -311,7 +314,83 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
     
  })
  
+const adminbookingdata = asyncHandler(async(req,res)=>{
+    
+
+    const data = await Booking.find({})
+
+    // console.log(data);
+
+    if(data){
+        res.status(200).json({
+            data
+        })
+    }else{
+        res.status(400).json({
+            message:"something went wrong while getting whole booking data"
+        })
+    }
+
+})
+
+const completed = asyncHandler(async(req,res)=>{
+    const id = req.params.id
+
+    const Complete = {
+        complete:true
+    }
+
+    const data = await Booking.findByIdAndUpdate(id,Complete,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+      })
 
 
+      if(data){
+          res.status(200).json({
+              Message:"Trip Completed"
+          })
+      }else{
+          res.status(400).json({
+              message:"Something went wrong while trying to complete trip"
+          })
+      }
+})
 
-module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon}
+
+const revenu = asyncHandler(async(req,res)=>{
+    const revenu = await Booking.aggregate([{
+        $match:{
+            "complete":true
+        }
+        },
+        {$group:{
+            "_id":"null",
+            sum:{$sum:"$PayedAmount"}
+        }},
+        {$project:{
+            _id:0,
+            sum:1
+        }},
+       {$unwind:"$sum"}
+    ]
+    )
+  
+    
+
+    console.log(revenu);
+
+
+    if(revenu){
+        res.status(200).json({
+                "revenu":revenu
+        })
+    }else{
+        res.status(400).json({
+            message:"Something went wrong"
+        })
+    }
+})
+
+module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon ,adminbookingdata , completed , revenu}

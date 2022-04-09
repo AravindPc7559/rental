@@ -4,6 +4,11 @@ const generateToken = require("../Unitl/jwt");
 const AddCar = require('../Model/CarModel/CarModel')
 const Review = require('../Model/ProductReviewModel/ProductReview')
 const districtSchema = require('../Model/DistrictModel/DistrictModel')
+const Razorpay = require('razorpay')
+const shortid = require("shortid");
+const path = require("path");
+
+var instance = new Razorpay({ key_id: process.env.RAZKEYID , key_secret:process.env.RAZSECRETKEY})
 
 const serviceSID =  process.env.SERVICESID
 const AccountSID = process.env.ACCOUNTSID
@@ -12,6 +17,7 @@ const client = require('twilio')(AccountSID,AuthTOKEN)
 const bcrypt = require("bcrypt");
 const AppliedCoupon = require("../Model/ApplyCoupon/ApplyCoupon");
 const CouponModel = require("../Model/Coupon/Coupon");
+const Booking = require("../Model/Bookings/Bookings");
 
 //user register
 
@@ -117,7 +123,7 @@ const getCarData = asyncHandler(async(req,res)=>{
 
 const otpnumber = asyncHandler(async(req,res)=>{
 
-  // console.log(req.body.mobNumber);
+  console.log(req.body.mobNumber);
 
   const phone = req.body.mobNumber
   // console.log(phone);
@@ -535,7 +541,7 @@ const applycoupon = asyncHandler(async(req,res)=>{
     // await AppliedCoupon.create({"CouponCode":Code,"UserId":userId})
    const data =  await CouponModel.findOne({"CouponCode":Code})
     
-  //  console.log(data);
+   console.log(data);
 
    if(data){
     res.status(200).json({
@@ -551,4 +557,143 @@ const applycoupon = asyncHandler(async(req,res)=>{
 
 })
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon};
+// const logo = asyncHandler(async(req,res)=>{
+//   res.sendFile()
+// })
+
+const razorpay = asyncHandler(async(req,res)=>{
+  const payment_capture = -1;
+  const amount = 500;
+  const currency = "INR";
+
+  const option = {
+    amount,
+    currency,
+    receipt:shortid.generate(),
+    payment_capture,
+  };
+
+
+  try {
+    const response = await instance.orders.create(option)
+    console.log(response);
+    res.status(200).json({
+      id:response.id,
+      currency:response.currency,
+    })
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+const razorpaysuccess = asyncHandler(async(req,res)=>{
+  // console.log(req.body);
+  const couponId = req.body.couponId;
+  const couponCode = req.body.couponCode;
+  const startData = req.body.start;
+  const endData = req.body.end;
+  const userId = req.body.USERID;
+  const userName = req.body.USERNAME;
+  const carName = req.body.carName;
+  const amount = req.body.amount
+  const carId = req.params.id
+  // console.log(couponId , couponCode , userId );
+  // console.log(startData , endData , userId , userName , carName , carId , amount);
+
+try {
+  
+  if(couponId && couponCode ){
+    const couponstore = await AppliedCoupon.create({'UserId':userId,'CouponCode':couponCode})
+  }
+  // console.log(couponstore);
+
+  const BookingStore = await Booking.create({'carId':carId,'userId':userId,'username':userName,'carname':carName,'cancel':false,'complete':false,'startDate':startData,'endDate':endData,'PayedAmount':amount})
+
+  res.status(200).json({
+    message:"Successfully Booked"
+  })
+} catch (error) {
+  res.status(400).json({
+    message:"Something wrong happend when we try to book.."
+  })
+}
+  // console.log(BookingStore);
+
+})
+
+
+const bookingdata =asyncHandler(async(req,res)=>{
+  // console.log(req.body.userId);
+
+  const userId = req.body.userId
+
+  const bookingData = await Booking.find({"userId":userId})
+
+  // console.log(bookingData);
+
+
+  if(bookingData){
+    res.status(200).json({
+      bookingData
+    })
+  }else{
+    res.status(400).json({
+      message:"Error while fetching booking history"
+    })
+  }
+
+})
+
+const cancel = asyncHandler(async(req,res)=>{
+  console.log(req.params.id);
+
+  const data ={
+    "cancel":true
+  }
+
+  const id= req.params.id
+  const cancelData = await Booking.findByIdAndUpdate(id ,data,{
+    new:true,
+    runValidators:true,
+    useFindAndModify:false
+  })
+
+  if(cancelData){
+    res.status(200).json({
+      Message:"You have cancelled the Booking"
+    })
+  }else{
+    res.status(400).json({
+      message:"something went wrong"
+    })
+  }
+})
+
+const getcoupon  = asyncHandler(async(req,res)=>{
+     
+  // console.log(req.body);
+
+  const userid = req.body.USERID
+  const data = await CouponModel.find({})
+
+  // const applycoupon = await AppliedCoupon.find({'UserId':userid})
+  
+
+
+  // console.log(applycoupon);
+
+
+
+  if(data){
+      res.status(200).json({
+          data,
+          message:"Showing Data Successfull"
+      })
+  }else{
+      res.status(400).json({
+          message:"Showing Data Failed..."
+      })
+  }
+})
+
+module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon};

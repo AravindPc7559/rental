@@ -175,14 +175,11 @@ wishlistdata.filter((item)=>{
 
 
 useEffect(()=>{ 
+  window.scrollTo(0, 0);
   gettingData()
   getwishlistdata()
 
-
-  // if(totalAmount === 0){
-      //   navigate('/')
-      // }
- 
+  
 
 
 },[update,removeWishlistRender])
