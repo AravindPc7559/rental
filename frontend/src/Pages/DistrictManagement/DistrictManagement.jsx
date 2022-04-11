@@ -30,6 +30,7 @@ function DistrictManagement() {
     const [postrender  , setPostRender] = useState(0)
     const [deleteId , setDeleteId] = useState()
     const [open, setOpen] = React.useState(false);
+    const [distMessage , setDistrictMessage] = useState('')
 
 
     const handleOpen = () => setOpen(true);
@@ -39,8 +40,12 @@ function DistrictManagement() {
     const distrcitHandler = () => {
         
         try {
-            axios.post('http://localhost:5000/api/admin/addDistrict',{district})
+            axios.post('/api/admin/addDistrict',{district}).then((res)=>{
+              console.log(res.data.message);
+              setDistrictMessage(res.data.message)
+            })
             setPostRender(postrender+1)
+            
         } catch (error) {
             console.log("error happend while uploading district data to database" , error);
         }
@@ -49,7 +54,7 @@ function DistrictManagement() {
 
     const getDistrictHandler = () => {
         try {
-            axios.get('http://localhost:5000/api/admin/getdistrictData').then((res)=>{
+            axios.get('/api/admin/getdistrictData').then((res)=>{
                 // console.log(res);
                 setDistrictData(res.data.getdata)
 
@@ -111,6 +116,7 @@ function DistrictManagement() {
       </Modal>
         <Box sx={{paddingLeft:30 }}>
             <Typography variant='h3' component='h6' textAlign='center'  >Add Your District</Typography>
+            {distMessage ? <Typography variant='p' component='h6' textAlign='center' color='error' >{distMessage}</Typography> : null }
             <Box   component="form"
       sx={{
         '& > :not(style)': { m: 1, width: '25ch' },
@@ -120,7 +126,7 @@ function DistrictManagement() {
       >
          
       
-                <div style={{marginLeft:560}} >
+                <div style={{marginLeft:670}} >
             <TextField id="outlined-basic" label="Distrcit" variant="outlined" sx={{width:520}} onChange={(e)=>setDistrict(e.target.value)}  />
             <br/>
             <Button onClick={distrcitHandler} variant='contained' sx={{width:200 ,marginTop:2,marginLeft:19}} >Add District</Button>
@@ -153,7 +159,7 @@ function DistrictManagement() {
                         })
                     } */}
 
-<Box sx={{width:400,marginLeft:75}} marginTop={3}>
+<Box sx={{width:400,marginLeft:90}} marginTop={3}>
 
 <TableContainer component={Paper}>
 <Table sx={{ maxWidth: 600 }} aria-label="simple table">

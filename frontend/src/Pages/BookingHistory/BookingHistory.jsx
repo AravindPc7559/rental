@@ -50,7 +50,7 @@ function BookingHistory() {
     // console.log(USERID);
 
     const getBookingdata = () => {
-        axios.post('http://localhost:5000/api/user/bookingdata',{"userId":USERID}).then((res)=>{
+        axios.post('/api/user/bookingdata',{"userId":USERID}).then((res)=>{
             // console.log(res);
             SetHistory(res.data.bookingData)
         })
@@ -65,7 +65,7 @@ function BookingHistory() {
     const handleCancel = (id) => {
             // console.log(id);
 
-            axios.post(`http://localhost:5000/api/user/cancel/${cancelId}`).then((res)=>{
+            axios.post(`/api/user/cancel/${cancelId}`).then((res)=>{
                 // console.log(res.data.Message);
                 setState(true)
                 setSnack(res.data.Message)

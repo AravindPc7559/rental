@@ -93,7 +93,7 @@ function Profile(id) {
         const PasswordResetHandle = (e) => {
             e.preventDefault();
             if(password === confirmPassword){
-                axios.patch(`http://localhost:5000/api/user/passwordreset/${userid.id}`,{password}).then((res)=>{
+                axios.patch(`/api/user/passwordreset/${userid.id}`,{password}).then((res)=>{
                     console.log(res.data.message);
                     setUpdateRes(res.data.message)
                     snackClose(true)
@@ -121,7 +121,7 @@ function Profile(id) {
 
     const userData = () => {
         try {
-            axios.get(`http://localhost:5000/api/user/getprofileuserdata/${userid.id}`).then((res)=>{
+            axios.get(`/api/user/getprofileuserdata/${userid.id}`).then((res)=>{
                 setuserDataValue(res.data.user)  
                 // console.log(res.data); 
                 setName(res.data.user.name)
@@ -145,7 +145,7 @@ function Profile(id) {
 
 
             try {
-                axios.patch(`http://localhost:5000/api/user/userupdate/${userid.id}`,
+                axios.patch(`/api/user/userupdate/${userid.id}`,
                   {  name, email ,phone , gender , district , age ,address}
                 ).then((res)=>{
                     // console.log(res.data.message);

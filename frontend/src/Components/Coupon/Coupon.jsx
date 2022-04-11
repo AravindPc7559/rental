@@ -32,13 +32,20 @@ function Coupon({pay , SetPay}) {
     const [CouponApply , SetCouponApply] = useState('')
     const[couponData , setCouponData] = useState([])
     const dispatch = useDispatch()
+    
 
-    console.log(couponData);
+
+    
+
+    // console.log(couponData);
 
     const user = localStorage.getItem('userInfo')
     const userId = JSON.parse(user)
     const USERID = userId._id
     // console.log(USERID);
+
+
+    
 
     // const handleOpen = () => setOpen(true);
     const handleClose = () => SetPay(false);
@@ -55,7 +62,7 @@ const handleChange = (event, newValue) => {
   
 const getCoupon = () => {
   try {
-      axios.post('http://localhost:5000/api/user/getcoupon',{USERID}).then((res)=>{
+      axios.post('/api/user/getcoupon',{USERID}).then((res)=>{
           // console.log(res.data.data);
           setShowCoupon(res.data.data)
           
@@ -64,26 +71,29 @@ const getCoupon = () => {
       console.log(error);
   }
 }
-//
+
 
 
 // coupon applying
     const couponSubmit = (e) => {
       e.preventDefault()
       // console.log(CouponApply);
-
         try {
-            axios.post('http://localhost:5000/api/user/applycoupon',{CouponApply , USERID}).then((res)=>{
+            axios.post('/api/user/applycoupon',{CouponApply , USERID}).then((res)=>{
               // console.log(res.data);
-              // setCouponData(res.data.data)
-        
-              dispatch({
-                type:'discount',
-                payload:res.data.data.discount
-              })
+                dispatch({
+                  type:'CouponMsg',
+                  payload:res.data.message
+                })
+         
+               dispatch({
+                 type:'discount',
+                 payload:res.data.discount
+               })
+      
               dispatch({
                 type:"DisAllData",
-                payload:res.data.data
+                payload:res.data
               })
               dispatch({
                 type:"CouponMsg",
@@ -91,6 +101,7 @@ const getCoupon = () => {
               })
             })
             SetPay(false);
+            // checkCoupon()
         } catch (error) {
           console.log(error);
         }
@@ -103,6 +114,7 @@ const getCoupon = () => {
 
 useEffect(()=>{
   getCoupon()
+
 },[])
 
   return (
@@ -115,6 +127,7 @@ useEffect(()=>{
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          
         <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' ,justifyContent:'center',display:'flex' }}>

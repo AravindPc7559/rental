@@ -78,7 +78,8 @@ const [state, setState] = React.useState(false)
             // console.log(discount);
 
           try {
-            axios.post(`http://localhost:5000/api/admin/couponmanagement`,{couponname , discount ,CouponCode}).then((res)=>{
+            axios.post(`/api/admin/couponmanagement`,{couponname , discount ,CouponCode}).then((res)=>{
+              // console.log(res);
                 SetSnackMessage(res.data.message)
             })
             setAddRender(true)
@@ -92,8 +93,8 @@ const [state, setState] = React.useState(false)
 
         const getCoupon = () => {
             try {
-                axios.get('http://localhost:5000/api/admin/getcoupon').then((res)=>{
-                    console.log(res.data.data);
+                axios.get('/api/admin/getcoupon').then((res)=>{
+                    // console.log(res);
                     setShowCoupon(res.data.data)
                 })
             } catch (error) {
@@ -105,7 +106,7 @@ const [state, setState] = React.useState(false)
             console.log(id);
 
             try {
-                axios.post(`http://localhost:5000/api/admin/deletecoupon/${deleteId}`).then((res)=>{
+                axios.post(`/api/admin/deletecoupon/${deleteId}`).then((res)=>{
                     // console.log(res.data.message);
                     SetSnackMessage(res.data.message)
                 })
@@ -158,24 +159,24 @@ const [state, setState] = React.useState(false)
         {/*  */}
 
         <Box sx={{paddingLeft:35 ,justifyContent:'center'}} >
-            <Box sx={{height:390,width:400,border:'3px solid black',marginLeft:70}} >
-                    <Typography textAlign='center' variant='h5' component='h6' mt={3} fontFamily='egoe UI' >
+            <Box sx={{height:390,width:400,marginLeft:75}} >
+                    <Typography textAlign='center' variant="h6" component="h2" ml={10} fontFamily='egoe UI' >
                         Coupon Management
                     </Typography>
 
-                    <Box mt={3} ml={4} >
+                    <Box mt={3} ml={3}  sx={{width:500}}  >
                         <form onSubmit={handleSubmit}>
                         <TextField id="outlined-basic" label="Coupon Name" variant="outlined" sx={{width:'90%'}} onChange={(e)=>SetCouponName(e.target.value)} />
                         <TextField id="outlined-basic" label="Coupon Code" variant="outlined" sx={{width:'90%',mt:2}} onChange={(e)=>SetCouponCode (e.target.value)} />
                         <TextField id="outlined-basic" label="Discount Amount" variant="outlined" sx={{width:'90%',mt:2}} onChange={(e)=>setDiscount(e.target.value)} />
-                        <Button style={{marginLeft:100,marginTop:20}} variant="contained" type='submit' color='success' >Add Coupon<AddIcon/></Button>
+                        <Button style={{marginLeft:130,marginTop:20}} variant="contained" type='submit' color='success' >Add Coupon<AddIcon/></Button>
                         </form>
                     </Box>
             </Box>
 
 
 
-            <Box sx={{width:600,marginLeft:57}} marginTop={3}>
+            <Box sx={{width:600,marginLeft:70}} marginTop={3}>
 
             <TableContainer component={Paper}>
       <Table sx={{ maxWidth: 600 }} aria-label="simple table">

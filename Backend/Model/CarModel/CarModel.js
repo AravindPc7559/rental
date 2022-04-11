@@ -55,6 +55,12 @@ const CarModel = mongoose.Schema({
     Longdescription:{
         type:String,
         required:true
+    },
+    OfferStatus:{
+        type:Boolean
+    },
+    prevAmount:{
+        type:Number
     }
 },{
     timestamps: true

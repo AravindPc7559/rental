@@ -93,7 +93,7 @@ function UserManagement() {
   const Block = async(id) => {
     // console.log(id);
 
-    const data = await axios.patch(`http://localhost:5000/api/admin/usermanagementUpdate/${id}`)
+    const data = await axios.patch(`/api/admin/usermanagementUpdate/${id}`)
 
     setIsBlock(data.data.IsBlock)
     setId(data.data.id)
@@ -110,7 +110,7 @@ function UserManagement() {
   const Unblock = async(id) => {
     console.log(id);
 
-    const data = await axios.patch(`http://localhost:5000/api/admin/usermanagementUpdateUnblock/${id}`)
+    const data = await axios.patch(`/api/admin/usermanagementUpdateUnblock/${id}`)
 
     setId(data.data.id)
     setIsBlock(data.data.IsBlock)
@@ -127,7 +127,7 @@ function UserManagement() {
   const row = async()=>{
 
       try {
-        await axios.get('http://localhost:5000/api/admin/usermanagement').then((res)=>{
+        await axios.get('/api/admin/usermanagement').then((res)=>{
           // console.log(res.data);
           setData(res.data)
         })

@@ -528,14 +528,14 @@ const applycoupon = asyncHandler(async(req,res)=>{
   const userId = req.body.USERID
   const Code = req.body.CouponApply
 
-  console.log(userId , Code);
+  // console.log(userId , Code);
 
   const data = await AppliedCoupon.findOne({"CouponCode":Code,"UserId":userId})
 
   if(data){
     console.log("already exist");
     res.json({
-      message:"You are already applied this coupon"
+      message:"You Have already applied this coupon"
     })
   }else{
     // await AppliedCoupon.create({"CouponCode":Code,"UserId":userId})
@@ -545,11 +545,17 @@ const applycoupon = asyncHandler(async(req,res)=>{
 
    if(data){
     res.status(200).json({
-      data,
-      message:"Coupon apply successfully"
+      CouponCode:data.CouponCode,
+      couponname:data.couponname,
+      discount:data.discount,
+      _id:data._id,
+      message:"Coupon Applied Successfully"
     })
    }else{
      console.log("NO COUPON");
+     res.json({
+       message:"coupon already used"
+     })
    }
   }
   
@@ -597,7 +603,7 @@ const razorpaysuccess = asyncHandler(async(req,res)=>{
   const carName = req.body.carName;
   const amount = req.body.amount
   const carId = req.params.id
-  // console.log(couponId , couponCode , userId );
+  console.log(couponId , couponCode , userId );
   // console.log(startData , endData , userId , userName , carName , carId , amount);
 
 try {
@@ -696,4 +702,12 @@ const getcoupon  = asyncHandler(async(req,res)=>{
   }
 })
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon};
+const paypal = asyncHandler(async(req,res)=>{
+  res.send(process.env.PAYPAL_CLIENT_ID) 
+})
+
+
+
+
+
+module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal};

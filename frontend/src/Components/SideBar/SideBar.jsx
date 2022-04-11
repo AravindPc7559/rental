@@ -87,7 +87,7 @@ function SideBar(props) {
           </Link>
       </List>
       <Divider />
-      <List>
+      {/* <List>
           <ListItem button >
             <ListItemIcon>
              <EditRoadOutlinedIcon />
@@ -95,7 +95,7 @@ function SideBar(props) {
             <h6>Completed Trips</h6>
             <ListItemText />
           </ListItem>
-      </List>
+      </List> */}
       <Divider />
       <List>
       <Link to='/admin/usermanagement' style={{textDecoration:'none' ,color:'black'}} >
@@ -121,6 +121,7 @@ function SideBar(props) {
           </Link>
       </List>
       <Divider />
+      <Link to='/offermanagement' style={{textDecoration:'none' ,color:'black'}} >
       <List>
           <ListItem button >
             <ListItemIcon>
@@ -130,6 +131,7 @@ function SideBar(props) {
             <ListItemText />
           </ListItem>
       </List>
+      </Link>
       <Divider />
       <List>
         <Link to='/admin/districtmanagement' style={{textDecoration:'none' ,color:'black'}} >

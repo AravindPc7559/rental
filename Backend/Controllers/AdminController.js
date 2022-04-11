@@ -9,6 +9,8 @@ const CouponModel = require('../Model/Coupon/Coupon');
 const Booking = require("../Model/Bookings/Bookings");
 const { aggregate } = require('../Model/AdminModel/adminModel');
 const { match } = require('assert');
+const Offer = require('../Model/OfferModel/OfferModel');
+
 
 
 // login route
@@ -45,7 +47,7 @@ const AddCarRoute = asyncHandler(async (req, res) => {
 
     // console.log("Working");
 
-    const data = await AddCar.create({ url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription})
+    const data = await AddCar.create({ url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription,"OfferStatus":false,prevAmount:''})
 
     // console.log("00000000000000000",data);
     if (data) {
@@ -207,18 +209,28 @@ const getAllCarDeatails = asyncHandler(async(req,res)=>{
      const district = req.body.district
 
     //  console.log(district);
+    const check = await districtSchema.findOne({district}).collation( { locale: 'en', strength: 2 } )
 
-    const data = await districtSchema.create({district})
+    // console.log(check);
 
-    // console.log(data);
+    if(!check){  
+        const data = await districtSchema.create({district})
 
-    if(data){
+        if(data){
 
-        res.status(200)
+            res.status(200)
+        }else{
+            res.status(400).send("error while district value inserting to database")
+        }
     }else{
-        res.status(400).send("error while district value inserting to database")
+        res.json({
+            message:"data already exist"
+        })
+        res.status(400)
+
     }
 
+    // console.log(data)
  })
 
  const getdistrictData = asyncHandler(async(req,res)=>{
@@ -393,4 +405,85 @@ const revenu = asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon ,adminbookingdata , completed , revenu}
+
+const DistrictOffer = asyncHandler(async(req,res)=>{
+    const location = req.body.selectDistrict
+    const offername = req.body.offerName
+    const offerPrice = req.body.offerPrice
+
+    // console.log(location , offername , offerPrice);
+
+
+    const data = await Offer.create({"District":location,"OfferName":offername,"OfferPrice":offerPrice})
+
+    const carData = await AddCar.find({"location":location}).collation( { locale: 'en', strength: 2 } )
+
+    console.log(carData);
+    carData.map(async(obj)=>{
+        let amount = obj.price
+         let data = amount-offerPrice
+        // console.log(data);
+
+        let offerEnable = await AddCar.updateOne({"_id":obj._id},{$set:{"OfferStatus":true,"prevAmount":amount,"price":data}},{
+            new:true,
+            runValidators:true,
+            useFindAndModify:false
+        }).collation( { locale: 'en', strength: 2 } )
+
+        // console.log(offerEnable);
+
+    })
+
+   
+})
+
+const GetOffer = asyncHandler(async(req,res)=>{
+    
+
+    const data = await Offer.find({})
+
+
+    if(data){
+        res.status(200).json({
+            data
+        })
+    }else{
+        res.status(400).json({
+            message:"Something went wrong while getting offer data"
+        })
+    }
+
+})
+
+
+const deleteoffer = asyncHandler(async(req,res)=>{
+    // console.log(req.params.id);
+
+    const id = req.body.deleteId
+    const district = req.body.delectDistrict
+    // console.log(id);
+    // console.log(district);
+
+    const carData = await AddCar.find({"location":district}).collation( { locale: 'en', strength: 2 } )
+
+    carData.map(async(obj)=>{
+        const amount = obj.prevAmount
+        console.log(amount);
+        const offerDisable = await AddCar.updateOne({"_id":obj._id},{$set:{"OfferStatus":false,"price":amount,"prevAmount":0}}).collation( { locale: 'en', strength: 2 } )
+
+        // console.log(offerDisable);
+        
+    })
+
+
+    const offerDelete = await Offer.findById({"_id":id})
+    await offerDelete.remove()
+    // console.log(offerDisable);
+
+    
+    res.status(200).json({
+        message:"You data have been deleted"
+    })
+})
+
+module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon ,adminbookingdata , completed , revenu ,DistrictOffer , GetOffer , deleteoffer}

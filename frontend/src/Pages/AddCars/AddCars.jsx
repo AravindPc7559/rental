@@ -97,7 +97,7 @@ function AddCars() {
 
           
           console.log("triggerd");
-          const data  = await axios.post('http://localhost:5000/api/admin/addcar',{
+          const data  = await axios.post('/api/admin/addcar',{
             url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription
           }
           ,config)

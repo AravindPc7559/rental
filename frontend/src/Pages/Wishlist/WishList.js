@@ -45,7 +45,7 @@ function WishList() {
   }
 
   const getallwishlistdata  = () => {
-     axios.post('http://localhost:5000/api/user/getallwishlistdata',{USERID}).then((res)=>{
+     axios.post('/api/user/getallwishlistdata',{USERID}).then((res)=>{
       // console.log(res);
       setCarId(res.data)
     })
@@ -53,7 +53,7 @@ function WishList() {
 
   const removefromwishlist = () => {
     try {
-      axios.post(`http://localhost:5000/api/user/removefromwishlist/${removeId}`,{USERID}).then((res)=>{
+      axios.post(`/api/user/removefromwishlist/${removeId}`,{USERID}).then((res)=>{
         // console.log(res);
       })
       setRender(render+1)

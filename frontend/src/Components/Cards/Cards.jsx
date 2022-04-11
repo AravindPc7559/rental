@@ -78,8 +78,8 @@ function Cards() {
     const navigate = useNavigate()
 
     const GetCars = async() => {
-        const data = await axios.get('http://localhost:5000/api/user/getcarData').then((res)=>{
-            // console.log(res.data.data)
+        const data = await axios.get('/api/user/getcarData').then((res)=>{
+            console.log(res.data.data)
 
             setCarsData(res.data.data)
             Setrender(true)
@@ -90,7 +90,17 @@ function Cards() {
 
     }
  
+    //offer area
 
+    // const offerData = () => {
+    //   try {
+    //       axios.get
+    //   } catch (error) {
+        
+    //   }
+    // }
+
+    // 
 
 
 
@@ -103,7 +113,7 @@ function Cards() {
 
 
      try {
-      axios.post('http://localhost:5000/api/user/search',{searchText}).then((res)=>{
+      axios.post('/api/user/search',{searchText}).then((res)=>{
         // console.log(res.data.data);
         setSearchData(res.data.data)
       })
@@ -118,7 +128,7 @@ function Cards() {
  
    const lowtohigh = () => {
      try {
-        axios.get('http://localhost:5000/api/user/lowtohigh').then((res)=>{
+        axios.get('/api/user/lowtohigh').then((res)=>{
           // console.log(res);
           setLowToHighData(res.data.sort)
         })
@@ -131,7 +141,7 @@ function Cards() {
 
    const hightolow = () => {
      try {
-       axios.get('http://localhost:5000/api/user/hightolow').then((res)=>{
+       axios.get('/api/user/hightolow').then((res)=>{
         //  console.log(res);
          setHighToLowData(res.data.sorttwo)
        })
@@ -148,7 +158,7 @@ function Cards() {
       SetSearchData(false)
   }
   
-const DistrictSort = useSelector((state)=>state.DisSort)
+  const DistrictSort = useSelector((state)=>state.DisSort)
 
 
 
@@ -227,15 +237,29 @@ const DistrictSort = useSelector((state)=>state.DisSort)
                image={obj.imgUrl}
              />
              <CardContent>
-              <div style={{display:'flex',justifyContent:'space-between'}} >
+             <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
                  {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
-               <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.price}/Day
+                   
+                 <Typography gutterBottom variant="h6" component="div">
+                ${obj.price}/day
                </Typography>
+         
+              
               </div>
+              {
+                   obj.OfferStatus ?
+                  <Box sx={{display:'flex'}} >
+                <Typography gutterBottom variant="BUTTON TEXT"  component="div">
+                Orginal Price : 
+               </Typography>
+               <Typography style={{textDecoration:'line-through'}} variant='subtitle2' >${obj.prevAmount}</Typography>
+                  </Box>
+                  :
+               null
+                 }  
                <Typography variant="subtitle2" color="text.secondary">
                    Available in :{obj.location}
                </Typography>
@@ -281,15 +305,29 @@ const DistrictSort = useSelector((state)=>state.DisSort)
                image={obj.imgUrl}
              />
              <CardContent>
-              <div style={{display:'flex',justifyContent:'space-between'}} >
+             <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
                  {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
-               <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.price}/Day
+                   
+                 <Typography gutterBottom variant="h6" component="div">
+                ${obj.price}/day
                </Typography>
+         
+              
               </div>
+              {
+                   obj.OfferStatus ?
+                  <Box sx={{display:'flex'}} >
+                <Typography gutterBottom variant="BUTTON TEXT"  component="div">
+                Orginal Price : 
+               </Typography>
+               <Typography style={{textDecoration:'line-through'}} variant='subtitle2' >${obj.prevAmount}</Typography>
+                  </Box>
+                  :
+               null
+                 }  
                <Typography variant="subtitle2" color="text.secondary">
                    Available in :{obj.location}
                </Typography>
@@ -336,15 +374,29 @@ const DistrictSort = useSelector((state)=>state.DisSort)
                  image={obj.imgUrl}
                />
                <CardContent>
-                <div style={{display:'flex',justifyContent:'space-between'}} >
-                <Typography gutterBottom variant="h5" component="div">
-                   {obj.brand}
-                   {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
-                 </Typography>
-                 <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                   ${obj.price}/Day
-                 </Typography>
-                </div>
+               <div style={{display:'flex',justifyContent:'space-between'}} >
+              <Typography gutterBottom variant="h5" component="div">
+                 {obj.brand}
+                 {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
+               </Typography>
+                   
+                 <Typography gutterBottom variant="h6" component="div">
+                ${obj.price}/day
+               </Typography>
+         
+              
+              </div>
+              {
+                   obj.OfferStatus ?
+                  <Box sx={{display:'flex'}} >
+                <Typography gutterBottom variant="BUTTON TEXT"  component="div">
+                Orginal Price : 
+               </Typography>
+               <Typography style={{textDecoration:'line-through'}} variant='subtitle2' >${obj.prevAmount}</Typography>
+                  </Box>
+                  :
+               null
+                 }  
                  <Typography variant="subtitle2" color="text.secondary">
                      Available in :{obj.location}
                  </Typography>
@@ -391,15 +443,29 @@ const DistrictSort = useSelector((state)=>state.DisSort)
                  image={obj.imgUrl}
                />
                <CardContent>
-                <div style={{display:'flex',justifyContent:'space-between'}} >
-                <Typography gutterBottom variant="h5" component="div">
-                   {obj.brand}
-                   {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
-                 </Typography>
-                 <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                   ${obj.price}/Day
-                 </Typography>
-                </div>
+               <div style={{display:'flex',justifyContent:'space-between'}} >
+              <Typography gutterBottom variant="h5" component="div">
+                 {obj.brand}
+                 {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
+               </Typography>
+                   
+                 <Typography gutterBottom variant="h6" component="div">
+                ${obj.price}/day
+               </Typography>
+         
+              
+              </div>
+              {
+                   obj.OfferStatus ?
+                  <Box sx={{display:'flex'}} >
+                <Typography gutterBottom variant="BUTTON TEXT"  component="div">
+                Orginal Price : 
+               </Typography>
+               <Typography style={{textDecoration:'line-through'}} variant='subtitle2' >${obj.prevAmount}</Typography>
+                  </Box>
+                  :
+               null
+                 }  
                  <Typography variant="subtitle2" color="text.secondary">
                      Available in :{obj.location}
                  </Typography>
@@ -459,13 +525,28 @@ const DistrictSort = useSelector((state)=>state.DisSort)
                  {obj.brand}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
-               <Typography gutterBottom variant="BUTTON TEXT" component="div">
-                 ${obj.price}/Day
+                   
+                 <Typography gutterBottom variant="h6" component="div">
+                ${obj.price}/day
                </Typography>
+         
+              
               </div>
+              {
+                   obj.OfferStatus ?
+                  <Box sx={{display:'flex'}} >
+                <Typography gutterBottom variant="BUTTON TEXT"  component="div">
+                Orginal Price : 
+               </Typography>
+               <Typography style={{textDecoration:'line-through'}} variant='subtitle2' >${obj.prevAmount}</Typography>
+                  </Box>
+                  :
+               null
+                 }     
                <Typography variant="subtitle2" color="text.secondary">
                    Available in :{obj.location}
                </Typography>
+               
                <Typography variant="body2" color="text.secondary" marginTop={1}>
                  {obj.description}
                </Typography>

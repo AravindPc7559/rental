@@ -110,7 +110,7 @@ const dtlFun = (id,imgName) => {
 // getting data
   const carManagement = async()=>{
    try {
-    const data = await axios.get('http://localhost:5000/api/user/getcarData').then((res)=>{
+    const data = await axios.get('/api/user/getcarData').then((res)=>{
         adminCarManagement(res.data.data)
     })
    } catch (error) {
@@ -138,7 +138,7 @@ const dtlFun = (id,imgName) => {
               },
           }
 
-            await axios.post('http://localhost:5000/api/admin/deletecar',
+            await axios.post('/api/admin/deletecar',
               {deleteId}
             ,config)
 
@@ -167,7 +167,7 @@ const dtlFun = (id,imgName) => {
           }
       }
 
-    await axios.get(`http://localhost:5000/api/admin/getallcardetails/${id}`).then((res)=>{
+    await axios.get(`/api/admin/getallcardetails/${id}`).then((res)=>{
         // console.log(res.data.brand);
         SetBrand(res.data.brand)
         setFuelType(res.data.fueltype)
@@ -209,7 +209,7 @@ const dtlFun = (id,imgName) => {
         }
 
       
-        const data = await axios.patch('http://localhost:5000/api/admin/updatecardata',{
+        const data = await axios.patch('/api/admin/updatecardata',{
           id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url,LongDescription
         },config).then((res)=>{
           console.log(res);

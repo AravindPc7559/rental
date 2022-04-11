@@ -21,6 +21,7 @@ import CouponManagement from './Pages/CouponManagemnet/CouponManagement';
 import BookingSuccess from './Pages/BookingSuccess/BookingSuccess';
 import BookingHistory from './Pages/BookingHistory/BookingHistory';
 import AdminBooking from './Pages/AdminBookingManagement/AdminBooking';
+import OfferManagement from './Pages/OfferManagement/OfferManagement';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path='/admin/addcars' element={<AddCars/>} />
         <Route path='/productpage/:id' element={<ProductPage/>} />
+        <Route path='/offermanagement' element={<OfferManagement/>} />
         <Route path='/profile/:id'  element={<Profile/>} />
         <Route path='/admin/coupon'  element={<CouponManagement/>} />
         <Route path='/admin/booking'  element={<AdminBooking/>} />

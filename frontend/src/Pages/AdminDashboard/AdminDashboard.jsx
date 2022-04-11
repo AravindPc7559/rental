@@ -21,7 +21,7 @@ function AdminDashboard() {
 
     const totalUserData = () => {
       try {
-        axios.get('http://localhost:5000/api/admin/userManagement').then((res)=>{
+        axios.get('/api/admin/userManagement').then((res)=>{
           // console.log(res.data);
           setTotalUser(res.data)
         })
@@ -32,7 +32,7 @@ function AdminDashboard() {
 
     const carData = () => {
       try {
-        axios.get('http://localhost:5000/api/user/getCarData').then((res)=>{
+        axios.get('/api/user/getCarData').then((res)=>{
           // console.log(res);
           setTotalCar(res.data.data)
         })
@@ -43,7 +43,7 @@ function AdminDashboard() {
 
     const revenu = () => {
       try {
-        axios.get('http://localhost:5000/api/admin/revenu').then((res)=>{
+        axios.get('/api/admin/revenu').then((res)=>{
           // console.log(res);
           setTotalRevenu(res.data.revenu[0].sum)
         })

@@ -64,7 +64,7 @@ function ProductPage(id) {
   
       try {
 
-          axios.post(`http://localhost:5000/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
+          axios.post(`/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
             // console.log(responce.data);
             setCarData(responce.data)
             setDummyAmount(responce.data.price)
@@ -131,7 +131,7 @@ const count = getDifferenceInDays(value[0],value[1])
 
 
 const wishlist = () => {
-  axios.post(`http://localhost:5000/api/user/dataTowishlist/${id2.id}`,{USERID}).then((res)=>{
+  axios.post(`/api/user/dataTowishlist/${id2.id}`,{USERID}).then((res)=>{
     // console.log(res);
   })
   setUpdate(true)
@@ -140,7 +140,7 @@ const wishlist = () => {
 
 const getwishlistdata = () => {
   try {
-    axios.post('http://localhost:5000/api/user/getdatafromwishlist',{USERID}).then((res)=>{
+    axios.post('/api/user/getdatafromwishlist',{USERID}).then((res)=>{
       // console.log(res);
       setWishListData(res.data.wishlist)
     })
@@ -152,7 +152,7 @@ const getwishlistdata = () => {
 
 const removefromwishlist = () => {
   try {
-    axios.post(`http://localhost:5000/api/user/removefromwishlist/${id2.id}`,{USERID}).then((res)=>{
+    axios.post(`/api/user/removefromwishlist/${id2.id}`,{USERID}).then((res)=>{
       // console.log(res);
     })
     setRemoveWishlistRender(true)

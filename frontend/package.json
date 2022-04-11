@@ -1,6 +1,7 @@
 {
   "name": "car_rental_booking",
   "version": "0.1.0",
+  "proxy": "http://localhost:5000",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -31,6 +32,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.28.0",
     "react-icons": "^4.3.1",
+    "react-paypal-button-v2": "^2.6.3",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
@@ -62,5 +64,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify/react": "^3.2.1"
   }
 }
