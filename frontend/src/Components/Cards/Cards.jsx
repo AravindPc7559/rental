@@ -79,7 +79,7 @@ function Cards() {
 
     const GetCars = async() => {
         const data = await axios.get('/api/user/getcarData').then((res)=>{
-            console.log(res.data.data)
+            // console.log(res.data.data)
 
             setCarsData(res.data.data)
             Setrender(true)
@@ -154,7 +154,7 @@ function Cards() {
     
   
   const handleSearchClear = () => {
-      console.log("clearing");
+      // console.log("clearing");
       SetSearchData(false)
   }
   
@@ -226,7 +226,7 @@ function Cards() {
               {
                   searchData.slice(0,visible).map((obj,index)=>{
                       return(
-                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} key={index} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
              <CardMedia
                component="img"
@@ -239,7 +239,7 @@ function Cards() {
              <CardContent>
              <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.brand}
+                 {obj.brand} {obj.model}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                    
@@ -294,7 +294,7 @@ function Cards() {
               {
                   lowtohighdata.slice(0,visible).map((obj,index)=>{
                       return(
-                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} key={index} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
              <CardMedia
                component="img"
@@ -307,7 +307,7 @@ function Cards() {
              <CardContent>
              <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.brand}
+                 {obj.brand} {obj.model}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                    
@@ -363,7 +363,7 @@ function Cards() {
                 {
                     hightolowdata.slice(0,visible).map((obj,index)=>{
                         return(
-                         <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                         <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} key={index} >
                          <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:700}} className='card' >
                <CardMedia
                  component="img"
@@ -376,7 +376,7 @@ function Cards() {
                <CardContent>
                <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.brand}
+                 {obj.brand} {obj.model}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                    
@@ -432,7 +432,7 @@ function Cards() {
                 {
                     DistrictSort.slice(0,visible).map((obj,index)=>{
                         return(
-                         <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                         <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} key={index} >
                          <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:650}} className='card' >
                <CardMedia
                  component="img"
@@ -445,7 +445,7 @@ function Cards() {
                <CardContent>
                <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.brand}
+                 {obj.brand} {obj.model}
                  {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
                </Typography>
                    
@@ -509,7 +509,7 @@ function Cards() {
               {
                   carsData.slice(0,visible).map((obj,index)=>{
                       return(
-                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} >
+                       <Grid item xl={3}  lg={4} md={4} sm={6} xs={12} key={index} >
                        <Card sx={{ maxWidth: 345 }} style={{margin:15,Height:'auto',position:'relative',minHeight:650}} className='card' >
              <CardMedia
                component="img"
@@ -522,8 +522,7 @@ function Cards() {
              <CardContent>
               <div style={{display:'flex',justifyContent:'space-between'}} >
               <Typography gutterBottom variant="h5" component="div">
-                 {obj.brand}
-                 {/* <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />}   /> */}
+                 {obj.brand} {obj.model}
                </Typography>
                    
                  <Typography gutterBottom variant="h6" component="div">

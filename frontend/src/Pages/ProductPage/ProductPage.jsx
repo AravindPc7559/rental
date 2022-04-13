@@ -30,6 +30,7 @@ function ProductPage(id) {
   const dispatch = useDispatch()
   const [bookStatus , setBookStatus] = useState(false)
   const [removeWishlistRender , setRemoveWishlistRender] = useState(false)
+  const [pageRender , setPageRender] = useState(false)
 
     const val = format(new Date(value[0]) ,'dd/MM/yyyy ')
     const val2 = format(new Date(value[1]) ,'dd/MM/yyyy ')
@@ -65,10 +66,18 @@ function ProductPage(id) {
       try {
 
           axios.post(`/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
-            // console.log(responce.data);
+            console.log(responce.data);
             setCarData(responce.data)
             setDummyAmount(responce.data.price)
             setCarID(responce.data._id)
+            dispatch({
+              type:'lattitude',
+              payload:responce.data.latitude
+            })
+            dispatch({
+              type:'longitude',
+              payload:responce.data.longitude
+            })
           })
 
       } catch (error) {
@@ -172,6 +181,10 @@ wishlistdata.filter((item)=>{
 })
 
 
+const callingMap = () => {
+  navigate('/map')
+}
+
 
 
 useEffect(()=>{ 
@@ -179,10 +192,10 @@ useEffect(()=>{
   gettingData()
   getwishlistdata()
 
-  
+  setPageRender(true)
 
 
-},[update,removeWishlistRender])
+},[update,removeWishlistRender,pageRender])
 
 
 
@@ -372,7 +385,7 @@ useEffect(()=>{
   
                 <Box  >
                   <Typography variant='h1 ' component='h1' textAlign='center' >
-                    {carData.location} <LocationOnOutlinedIcon onClick={()=>alert("location")} style={{fontSize:40,cursor:'pointer'}}  />
+                    {carData.location} <LocationOnOutlinedIcon onClick={callingMap} style={{fontSize:40,cursor:'pointer'}}  />
                   </Typography>
                 </Box>
           </Paper>

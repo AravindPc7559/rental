@@ -53,7 +53,7 @@ const [pay , SetPay] = useState(false)
 const [map , setMap] = useState(false)
 const id2 = useParams()
 const [sdkReady , setSdkReady] =  useState(false)
-
+const [pageRender , setPageRender] = useState(false)
 
 const IDinfo = id2.id
 // console.log(IDinfo);
@@ -64,6 +64,8 @@ const IDinfo = id2.id
     const USERID =  userId._id
     const USEREMAIL = userId.email
 
+
+  // console.log(USEREMAIL);
 
     // Payment modal
 
@@ -140,7 +142,7 @@ async function showRazorpay() {
     handler:function (responce){
 
       axios.post(`/api/user/razorpaysuccess/${id2.id}`,{
-        couponId,couponCode,start,end,USERNAME,USERID,carName,amount
+        couponId,couponCode,start,end,USERNAME,USERID,carName,amount,USEREMAIL
       }).then((res)=>{
         // console.log(res.data.message);
         navigate('/bookingsuccess')
@@ -163,7 +165,7 @@ async function showRazorpay() {
 const susscesPaypalHandle = (paymentResult) => {
   console.log(paymentResult);
   axios.post(`/api/user/razorpaysuccess/${id2.id}`,{
-    couponId,couponCode,start,end,USERNAME,USERID,carName,amount
+    couponId,couponCode,start,end,USERNAME,USERID,carName,amount,USEREMAIL
   }).then((res)=>{
     // console.log(res.data.message);
     navigate('/bookingsuccess')
@@ -181,6 +183,7 @@ const susscesPaypalHandle = (paymentResult) => {
     if(!user){
       navigate('/')
     }
+    setPageRender(true)
     const addPaypalScript = async ()=>{
         const {data: clientId} = await axios.get('/api/user/paypal')
         const script = document.createElement('script')
@@ -194,7 +197,7 @@ const susscesPaypalHandle = (paymentResult) => {
 
         document.body.appendChild(script)
     }
-  },[])
+  },[pageRender])
 
     const mapHandle = () => {
 

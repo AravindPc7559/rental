@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { Typography } from '@mui/material';
+// import Chart from '../../Components/Chart/Chart';
 
 function AdminDashboard() {
   const [totalUser , setTotalUser] = useState([])
@@ -88,6 +89,7 @@ function AdminDashboard() {
 
             </Grid>
       </Grid>
+      {/* <Chart/> */}
       </Box>
     </div>
   )

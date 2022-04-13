@@ -29,11 +29,10 @@ function OfferManagement() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [offerData , setOfferData] = useState([])
-    const [deleteRender , setDeleteRender] = useState(false)
     const [getDataRender , setGetDataRender] = useState(false)
     const [deleteId , setDeleteId] = useState('')    
     const [delectDistrict , setDeleteDistritct] = useState('')
-
+    const [deleteRender , setDeleteRender] = useState(false)
 
     console.log(deleteId , delectDistrict);
 
@@ -91,10 +90,12 @@ function OfferManagement() {
         try {
             axios.post(`/api/admin/deleteoffer`,{"delectDistrict":delectDistrict,"deleteId":deleteId}).then((res)=>{
                 console.log(res);
+                setDeleteRender(true)
             })
-            setDeleteRender(true)
             setOpenmodal(false);
+            
         } catch (error) {
+          setDeleteRender(true)
             console.log("error occured while deleting the offer",error);
         }
     }
@@ -103,7 +104,7 @@ function OfferManagement() {
     useEffect(()=>{
         getDistrict()
         getOffers()
-    },[deleteRender, getDataRender])
+    },[getDataRender,deleteRender])
   return (
     <div>
          <SideBar/>

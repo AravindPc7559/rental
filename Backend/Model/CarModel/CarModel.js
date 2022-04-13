@@ -61,6 +61,12 @@ const CarModel = mongoose.Schema({
     },
     prevAmount:{
         type:Number
+    },
+    latitude:{
+        type:Number
+    },
+    longitude:{
+        type:Number
     }
 },{
     timestamps: true

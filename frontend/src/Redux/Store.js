@@ -9,7 +9,9 @@ const appreducer = combineReducers({
     DisSort:DistrictSort,
     Discount:DiscountAmount,
     DisAll:DiscountAllData,
-    msg:CouponMsg
+    msg:CouponMsg,
+    lat:Lattitude,
+    lng:Longitude
 })
 
 
@@ -80,6 +82,21 @@ function CouponMsg(prevState = '' , action){
     }
 }
 
+function Lattitude(prevState = '' , action){
+    switch(action.type){
+        case'lattitude':
+            return action.payload
+        default: return prevState
+    }
+}
+
+function Longitude(prevState = '', action ){
+    switch(action.type){
+        case'longitude':
+        return action.payload
+    default:return prevState
+    }
+}
 
 
 const store = createStore(appreducer)

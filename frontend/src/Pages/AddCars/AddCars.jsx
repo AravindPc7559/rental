@@ -80,9 +80,9 @@ function AddCars() {
   console.log(imgName);
 
     const submitHandle = async(data)=>{
-        const {url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,Longdescription} = data
+        const {url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,Longdescription ,latitude ,longitude} = data
         
-        console.log(url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description);
+        console.log(url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,latitude ,longitude);
 
 
 
@@ -98,7 +98,7 @@ function AddCars() {
           
           console.log("triggerd");
           const data  = await axios.post('/api/admin/addcar',{
-            url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription
+            url,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,imgName,Longdescription,latitude ,longitude
           }
           ,config)
 
@@ -325,6 +325,32 @@ function AddCars() {
             type="url"
             name="url"
             {...register('url',{required:"image url is required" , minLength:{value:2,message:"minimum length is 2"}})}
+          />           
+          </Grid>
+
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+            <label style={{color:'red',fontSize:'12px'}} htmlFor="" className={classes.latitude}  >{errors.register && errors.latitude.message}</label>
+                <br/>
+                <TextField
+            
+            label="Location Lattitude"
+            placeholder="Enter PickUp location Lattitude"
+            type="text"
+            name="latitude"
+            {...register('latitude',{required:"latitude is required" })}
+          />           
+          </Grid>
+
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+            <label style={{color:'red',fontSize:'12px'}} htmlFor="" className={classes.longitude}  >{errors.register && errors.longitude.message}</label>
+                <br/>
+                <TextField
+            
+            label="Location Longitude"
+            placeholder="Enter PickUp location Longitude"
+            type="text"
+            name="longitude"
+            {...register('longitude',{required:"longitude is required" })}
           />           
           </Grid>
 

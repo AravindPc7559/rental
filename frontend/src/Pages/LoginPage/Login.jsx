@@ -93,7 +93,8 @@ function Login() {
   // const [email , setEmail] = useState('')
   // const [password,setPassword]= useState('')
   const {register , handleSubmit ,formState:{errors}} = useForm()
-
+  const {register:register2 , handleSubmit:handleSubmit2 , formState:{errors:errors2}} = useForm()
+ 
   // console.log(email , password);
 
 
@@ -174,7 +175,7 @@ function Login() {
 
   
 
-  const LoginWithOtpHandle = () => {
+  const LoginWithOtpHandle = (data) => {
       // e.preventDefault()
       // console.log(data);
 
@@ -370,10 +371,10 @@ function Login() {
           <Typography sx={{textAlign:'center'}} id="modal-modal-title" variant="h6" component="h2">
                 {otpnumbererror ? "Your Number is not registerd" : "Enter your Mobile Number"}
           </Typography>
-          <form  onSubmit={LoginWithOtpHandle} >
-           {/* <p style={{color:'red',fontSize:'19px',textAlign:'center'}} >{errors.phone && errors.phone.message}</p> */}
+          <form  onSubmit={handleSubmit2(LoginWithOtpHandle)} >
+           <p style={{color:'red',fontSize:'19px',textAlign:'center'}} >{errors2.phone && errors2.phone.message}</p>
            <div style={{display:'flex',justifyContent:'center'}} >
-           <input type="number" placeholder="Mobile Number" name="phone"   style={{width:200,height:50,border:'1px solid black',textAlign:'center'}}   onChange={(e)=>setMobNumber(e.target.value)} />
+           <input type="number" placeholder="Mobile Number" name="phone" {...register2('phone',{required:"Mobile number is required",minLength:{value:10,message:"minimun length is 10"},maxLength:{value:10,message:"Maximun length is 10"}})}  style={{width:200,height:50,border:'1px solid black',textAlign:'center'}}   onChange={(e)=>setMobNumber(e.target.value)} />
            {/* <input value='Submit' type='submit' /> */}
            </div>
           <div style={{justifyContent:'center', display:'flex',marginTop:10}} >

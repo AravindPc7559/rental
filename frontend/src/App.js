@@ -22,28 +22,36 @@ import BookingSuccess from './Pages/BookingSuccess/BookingSuccess';
 import BookingHistory from './Pages/BookingHistory/BookingHistory';
 import AdminBooking from './Pages/AdminBookingManagement/AdminBooking';
 import OfferManagement from './Pages/OfferManagement/OfferManagement';
+import Map from './Components/map/Map';
+
+
 
 function App() {
+
+ 
+
   return (
     <div className="App">
+  
       <Provider store={store} >
       <BrowserRouter  >
       <Routes>
+        <Route path='/map' element={<Map/>} />
         <Route path='/admin/addcars' element={<AddCars/>} />
-        <Route path='/productpage/:id' element={<ProductPage/>} />
-        <Route path='/offermanagement' element={<OfferManagement/>} />
-        <Route path='/profile/:id'  element={<Profile/>} />
+        <Route path='/admin/offermanagement' element={<OfferManagement/>} />
         <Route path='/admin/coupon'  element={<CouponManagement/>} />
         <Route path='/admin/booking'  element={<AdminBooking/>} />
-        <Route path='/booking/:id' element={<BookingPage/>} />
-        <Route path='/bookingsuccess' element={<BookingSuccess/>} />
-        <Route path='/bookinghistory' element={<BookingHistory/>} />
         <Route path='/admin/usermanagement' element={<UserManagement/>} />
         <Route path='/admin/districtmanagement' element={<DistrictManagement/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />
         <Route path='/admin/carManagement' element={<CarManagement/>} />
         <Route path='/admin' element={<AdminLogin/>} />
         <Route path='/admin/adminhomepage' element={<Admin/>} />
+        <Route path='/productpage/:id' element={<ProductPage/>} />
+        <Route path='/profile/:id'  element={<Profile/>} />
+        <Route path='/booking/:id' element={<BookingPage/>} />
+        <Route path='/bookingsuccess' element={<BookingSuccess/>} />
+        <Route path='/bookinghistory' element={<BookingHistory/>} />
         <Route path='/' element={<User/>} />
         <Route path='/wishlist' element={<WishList/>} />
         <Route path='/login' element={<Login/>}  />

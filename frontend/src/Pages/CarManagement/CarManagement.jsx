@@ -80,6 +80,8 @@ const [imgUrl , setImageUrl] = useState('')
 const [progress, setProgress] = useState(0);
 const [deletImgName , setDltImgName] = useState('')
 const [LongDescription , setLongDescription] = useState('')
+const [lattitude , setLattitude] = useState('')
+const [longitude , setLongitude] = useState('')
 // console.log(imgUrl);
 
 // console.log(img);
@@ -183,8 +185,8 @@ const dtlFun = (id,imgName) => {
         setImage(res.data.imgUrl)
         setId(res.data._id)
         setLongDescription(res.data.Longdescription)
-        
-
+        setLattitude(res.data.latitude)
+        setLongitude(res.data.longitude)
         // SetCarEditData(res.data)
       })
 
@@ -210,7 +212,7 @@ const dtlFun = (id,imgName) => {
 
       
         const data = await axios.patch('/api/admin/updatecardata',{
-          id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url,LongDescription
+          id,brand,model,fueltype,RegNo,price,seats,location,mileage,register,description,imgUrl,url,LongDescription,lattitude,longitude
         },config).then((res)=>{
           console.log(res);
         })
@@ -427,6 +429,33 @@ const dtlFun = (id,imgName) => {
             name="mileage"
             value={mileage}
             onChange={(e)=>SetMileage(e.target.value)}
+          />            
+          </Grid>
+
+
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+                <br/>
+                <TextField
+            
+            label="Lattitude"
+            placeholder="Enter Lattitude of location"
+            type="number"
+            name="latitude"
+            value={lattitude}
+            onChange={(e)=>setLattitude(e.target.value)}
+          />            
+          </Grid>
+
+          <Grid item md={6} xs={12} lg={4} marginTop={2} >
+                <br/>
+                <TextField
+            
+            label="Longitude"
+            placeholder="Enter Longitude of location"
+            type="number"
+            name="longitude"
+            value={longitude}
+            onChange={(e)=>setLongitude(e.target.value)}
           />            
           </Grid>
 

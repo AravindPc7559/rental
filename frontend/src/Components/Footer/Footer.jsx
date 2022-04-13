@@ -30,7 +30,7 @@ function Footer() {
                             <i class="far fa-envelope-open"></i>
                             <div class="cta-text">
                                 <h4>Mail us</h4>
-                                <span>roadsterService@gmail.com</span>
+                                <span>roadsterofficialpvt@gmail.com</span>
                             </div>
                         </div>
                     </div>
@@ -45,14 +45,15 @@ function Footer() {
                             </div>
                             <div class="footer-social-icon">
                                 <span>Follow us</span>
-                                <a href="#"><i class="fab fa-facebook-f facebook-bg"></i></a>
-                                <a href="#"><i class="fab fa-twitter twitter-bg"></i></a>
-                                <a href="#"><i class="fab fa-google-plus-g google-bg"></i></a>
+                                <a href="https://www.facebook.com/pc.pc.167/"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="https://www.instagram.com/_arvn_d/"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://github.com/AravindPc7559"><i class="fa-brands fa-github"></i></a>
+                                <a href=""><i class="fa-brands fa-google"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
-                        <div class="footer-widget">
+                        {/* <div class="footer-widget">
                             <div class="footer-widget-heading">
                                 <h3>Useful Links</h3>
                             </div>
@@ -68,7 +69,7 @@ function Footer() {
                                 <li><a href="#">Contact us</a></li>
                                 <li><a href="#">Latest News</a></li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
                         <div class="footer-widget">
@@ -93,11 +94,11 @@ function Footer() {
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 text-center text-lg-left">
                         <div class="copyright-text">
-                            <p>Copyright &copy; 2022, All Right Reserved <a href="https://codepen.io/anupkumar92/">Aravind</a></p>
+                            <p>Copyright &copy; 2022, All Right Reserved <a >Aravind</a></p>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
-                        <div class="footer-menu">
+                        {/* <div class="footer-menu">
                             <ul>
                                 <li><a href="#">Home</a></li>
                                 <li><a href="#">Terms</a></li>
@@ -105,7 +106,7 @@ function Footer() {
                                 <li><a href="#">Policy</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

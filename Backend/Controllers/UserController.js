@@ -4,6 +4,7 @@ const generateToken = require("../Unitl/jwt");
 const AddCar = require('../Model/CarModel/CarModel')
 const Review = require('../Model/ProductReviewModel/ProductReview')
 const districtSchema = require('../Model/DistrictModel/DistrictModel')
+var nodemailer = require('nodemailer');
 const Razorpay = require('razorpay')
 const shortid = require("shortid");
 const path = require("path");
@@ -603,7 +604,8 @@ const razorpaysuccess = asyncHandler(async(req,res)=>{
   const carName = req.body.carName;
   const amount = req.body.amount
   const carId = req.params.id
-  console.log(couponId , couponCode , userId );
+  const useremail = req.body.USEREMAIL
+  // console.log(couponId , couponCode , userId );
   // console.log(startData , endData , userId , userName , carName , carId , amount);
 
 try {
@@ -614,6 +616,33 @@ try {
   // console.log(couponstore);
 
   const BookingStore = await Booking.create({'carId':carId,'userId':userId,'username':userName,'carname':carName,'cancel':false,'complete':false,'startDate':startData,'endDate':endData,'PayedAmount':amount})
+
+  if(BookingStore){
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.NODEMAIL_EMAIL,
+        pass: process.env.NODEMAIL_PASSWORD
+      }
+    });
+
+    var mailOptions = {
+      from: 'roadsterofficialpvt@gmail.com',
+      to: useremail,
+      subject: "RoadSter Car Rental Booking Service",
+      text: `Hello ${userName} Thank you for using roadster for your personal car rental service . Your have successfully booked ${carName} from our website . You can use the car from ${startData} to ${endData} Thank You For using ROADSTER CAR RENTAL PRIVATE LIMITED and have a great day!!`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+       
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.send("Email sented")
+      }
+    });
+  }
 
   res.status(200).json({
     message:"Successfully Booked"

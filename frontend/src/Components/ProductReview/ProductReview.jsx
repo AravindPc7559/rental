@@ -1,6 +1,20 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import React,{useEffect, useState} from 'react'
+import Modal from '@mui/material/Modal';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function ProductReview({id}) {
   const [review,setReview] = useState('')
@@ -10,6 +24,22 @@ function ProductReview({id}) {
   const value = JSON.parse(data)
   const [render,setRender] = useState(0)
   const [comments,setComments]= useState([])
+  const [deleteId , setDeleteId] = useState()
+
+  // modal for deleting
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+  const deleteFuc = (id) => {
+    // console.log(id);
+    setDeleteId(id)
+    setOpen(true);
+  }
+
+  // 
 
 
 
@@ -65,10 +95,10 @@ function ProductReview({id}) {
   const handleDelete = (id)=>{
 
     try {
-      axios.post(`/api/user/deletecomment/${id}`).then((res)=>{
+      axios.post(`/api/user/deletecomment/${deleteId}`).then((res)=>{
         console.log(res);
       })
-      
+      setOpen(false);
       setRender(render+1)
     } catch (error) {
       
@@ -84,6 +114,22 @@ function ProductReview({id}) {
  
   return (
     <div>
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" textAlign='center' component="h2">
+            Are you sure want to Delete!
+          </Typography>
+      <Box sx={{justifyContent:'center',display:'flex'}} >
+      <Button onClick={handleDelete} >Yes</Button>
+      <Button onClick={()=>setOpen(false)} >No</Button>
+      </Box>
+        </Box>
+      </Modal>
       
               {value ? 
         <Box marginTop={5} marginLeft={5} >
@@ -131,7 +177,7 @@ function ProductReview({id}) {
                 </Typography>
                 {
                   userName === data.userName ?
-                  <Button sx={{marginLeft:2}}  onClick={()=>handleDelete(`${data._id}`)} >Delete</Button>
+                  <Button sx={{marginLeft:2}}  onClick={()=>deleteFuc(`${data._id}`)} >Delete</Button>
                   :
                   null
                 }
