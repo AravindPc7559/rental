@@ -59,7 +59,7 @@ function BookingSuccess() {
                             </Typography>
                             </div>
                             <div style={{display:'flex',justifyContent:"center",marginTop:30}} >
-                                <Button variant='contained'  size='large' onClick={()=>navigate('/')} >Home</Button>
+                                <Button variant='contained'  size='large' onClick={()=>navigate('/bookinghistory')} >Ok</Button>
                             </div>
                        </Grid>
                     </Grid>

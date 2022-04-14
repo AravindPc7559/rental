@@ -190,10 +190,10 @@ function AppBarHeader(props) {
 
   return (
     
-    <Box sx={{ flexGrow: 1,position:'fixed',top:0,left:0,right:0,zIndex:100, }}>
+    <Box sx={{ flexGrow: 1,position:'fixed',top:0,left:0,right:0,zIndex:100}}>
     <AppBar position="static" style={{backgroundColor:'#222222'}}>
       <Toolbar>
-        <IconButton
+        {/* <IconButton
           size="large"
           edge="start"
           color="inherit"
@@ -201,12 +201,12 @@ function AppBarHeader(props) {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton> */}
         <Typography
           variant="h6"
           noWrap
           component="div"
-          sx={{ display: { xs: 'none', sm: 'block' } }}
+          // sx={{ display: { xs: 'none', sm: 'block' } }}
         >
           {
               props.admin ? null : <Link to='/' style={{color:'white',textDecoration:'none'}} >ROADSTER</Link>
@@ -235,7 +235,7 @@ function AppBarHeader(props) {
             loc && !props.admin ? 
             <div style={{marginRight:10 , marginTop:14}}>
             
-            <h6> Welcome {loc.name}</h6>
+            <h6 style={{color:'white'}} > Welcome {loc.name}</h6>
              </div>
               :
               null
@@ -300,7 +300,7 @@ function AppBarHeader(props) {
             color="inherit"
           >
             <MoreIcon />
-          </IconButton>
+          </IconButton >
         </Box>
       </Toolbar>
     </AppBar>

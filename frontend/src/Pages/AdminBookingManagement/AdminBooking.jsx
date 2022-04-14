@@ -1,4 +1,4 @@
-import { Box,Button } from '@mui/material'
+import { Box,Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import SideBar from '../../Components/SideBar/SideBar'
 import Table from '@mui/material/Table';
@@ -44,11 +44,12 @@ function AdminBooking() {
   return (
     <div>
          <SideBar/>
+        <Typography variant='h4' component='h6' textAlign='center' mb={5} ml={20}>Booking Management</Typography>
       <Box sx={{paddingLeft:30 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper}  >
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{border:'5px solid black'}} >
             <TableCell>Username</TableCell>
             <TableCell align="right">Car</TableCell>
             <TableCell align="right">StartDate</TableCell>
@@ -64,7 +65,7 @@ function AdminBooking() {
               return(
                 <TableRow
                 aksjfdbak
-                sx={{ '&:last-child td, &:last-child th': { border: 0 },height:70 }} key={index}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 },height:70,border:'1px solid black' }} key={index}
               >
                 <TableCell component="th" scope="row">
                   {obj.username}

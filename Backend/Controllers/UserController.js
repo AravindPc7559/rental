@@ -595,6 +595,9 @@ const razorpay = asyncHandler(async(req,res)=>{
 
 const razorpaysuccess = asyncHandler(async(req,res)=>{
   // console.log(req.body);
+
+  console.log("enterd");
+
   const couponId = req.body.couponId;
   const couponCode = req.body.couponCode;
   const startData = req.body.start;
@@ -616,6 +619,9 @@ try {
   // console.log(couponstore);
 
   const BookingStore = await Booking.create({'carId':carId,'userId':userId,'username':userName,'carname':carName,'cancel':false,'complete':false,'startDate':startData,'endDate':endData,'PayedAmount':amount})
+
+    console.log(BookingStore);
+
 
   if(BookingStore){
     var transporter = nodemailer.createTransport({
@@ -662,7 +668,7 @@ const bookingdata =asyncHandler(async(req,res)=>{
 
   const userId = req.body.userId
 
-  const bookingData = await Booking.find({"userId":userId})
+  const bookingData = await Booking.find({"userId":userId,"cancel":false,"complete":false})
 
   // console.log(bookingData);
 
@@ -677,6 +683,44 @@ const bookingdata =asyncHandler(async(req,res)=>{
     })
   }
 
+})
+
+const completedtrips = asyncHandler(async(req,res)=>{
+  const userId = req.body.userId
+
+  const bookingData = await Booking.find({"userId":userId,"complete":true})
+
+  // console.log(bookingData);
+
+
+  if(bookingData){
+    res.status(200).json({
+      bookingData
+    })
+  }else{
+    res.status(400).json({
+      message:"Error while fetching booking history"
+    })
+  }
+})
+
+const cancelledtrips = asyncHandler(async(req,res)=>{
+  const userId = req.body.userId
+
+  const bookingData = await Booking.find({"userId":userId,"cancel":true})
+
+  // console.log(bookingData);
+
+
+  if(bookingData){
+    res.status(200).json({
+      bookingData
+    })
+  }else{
+    res.status(400).json({
+      message:"Error while fetching booking history"
+    })
+  }
 })
 
 const cancel = asyncHandler(async(req,res)=>{
@@ -739,4 +783,4 @@ const paypal = asyncHandler(async(req,res)=>{
 
 
 
-module.exports = { RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal};
+module.exports = { cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};

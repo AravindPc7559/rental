@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -176,8 +176,8 @@ function Cards() {
         <Div>{"Choose your car."}</Div>
         <br/>
         
-        <Container>
-        <Grid container spacing={4} >
+        <Container  >
+        <Grid container spacing={4} style={{margin:'auto' }} >
                     <Grid item sm={12} xs={12} md={6} lg={4} xl={4} >
                            <Box sx={{display:'flex'}}  >
                              <Box>
