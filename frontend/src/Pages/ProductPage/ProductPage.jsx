@@ -16,7 +16,7 @@ import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDiss
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useDispatch} from 'react-redux'
 import { format, toDate } from 'date-fns'
-
+import Chip from '@mui/material/Chip';
 
 function ProductPage(id) {
   const [value, setValue] = React.useState([null, null]);
@@ -31,6 +31,7 @@ function ProductPage(id) {
   const [bookStatus , setBookStatus] = useState(false)
   const [removeWishlistRender , setRemoveWishlistRender] = useState(false)
   const [pageRender , setPageRender] = useState(false)
+  const [DateAvailability , SetDateAvailability] = useState(false)
 
     const val = format(new Date(value[0]) ,'dd/MM/yyyy ')
     const val2 = format(new Date(value[1]) ,'dd/MM/yyyy ')
@@ -185,7 +186,26 @@ const callingMap = () => {
   navigate('/map')
 }
 
+const HandleBookNow = (id) =>  {
+  // console.log(id);
+  try {
+    axios.post(`/api/user/checkdate`,{val,val2,id}).then((res)=>{
+      // console.log(res);
+      SetDateAvailability(res.data.message)
+      if(res.data.message === 'Car Not Available For this Time Period'){
+        SetDateAvailability(true)
+      }else{
+        navigate(`/booking/${id2.id}`)
+      }
+      
+    })
 
+  } catch (error) {
+    console.log("triggred");
+   
+  }
+
+}
 
 useEffect(()=>{ 
   window.scrollTo(0, 0);
@@ -257,7 +277,8 @@ useEffect(()=>{
     </LocalizationProvider>
     </Box>
     <Box sx={{display:'flex' , justifyContent:'center'}} paddingTop={1}>
-    { bookStatus ? <label style={{color:'red'}} >Please Select A Date!!</label> : null}
+    { bookStatus ?  <Chip color='error' label="Please Select A Date" variant="outlined" /> : null}
+    {DateAvailability ? <Chip color='error' label="Car Is Not Available At This Time Period" variant="outlined" /> : null}
     </Box>
   
     <ColoredLine color="black" />
@@ -281,7 +302,7 @@ useEffect(()=>{
       {user ? 
      <div>
         {
-          totalAmount === 0 ? <Button variant='outlined' onClick={()=>setBookStatus(true)}  >Book Now</Button> : <Button variant='outlined'  onClick={()=>navigate(`/booking/${id2.id}`)}  >Book Now</Button>
+          totalAmount === 0 ? <Button variant='outlined' onClick={()=>setBookStatus(true)}  >Book Now</Button> : <Button variant='outlined'  onClick={()=>HandleBookNow(carData._id)}  >Book Now</Button>
         }
        {
          test ?

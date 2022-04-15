@@ -88,7 +88,9 @@
    }
    
    .card:hover {
-    box-shadow: -12px 12px 2px -1px rgba(0, 0, 255, .2);
+    box-shadow: -15px 15px 2px -1px rgba(130, 179, 176, 0.514);
+    transform: scale(1.05);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
    }
-   
+
    

@@ -596,7 +596,7 @@ const razorpay = asyncHandler(async(req,res)=>{
 const razorpaysuccess = asyncHandler(async(req,res)=>{
   // console.log(req.body);
 
-  console.log("enterd");
+  // console.log("enterd");
 
   const couponId = req.body.couponId;
   const couponCode = req.body.couponCode;
@@ -618,12 +618,23 @@ try {
   }
   // console.log(couponstore);
 
+
   const BookingStore = await Booking.create({'carId':carId,'userId':userId,'username':userName,'carname':carName,'cancel':false,'complete':false,'startDate':startData,'endDate':endData,'PayedAmount':amount})
 
     console.log(BookingStore);
 
 
+  // if(IncCount){
+  //   const UpdateCount = await AddCar.updateOne()
+
+  //   console.log(UpdateCount);
+  // }
+
+  // console.log(IncCount);
   if(BookingStore){
+    const IncCount = await AddCar.findOneAndUpdate({"_id":carId},{$inc:{Bookingcount:1}})
+
+
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -706,6 +717,9 @@ const completedtrips = asyncHandler(async(req,res)=>{
 
 const cancelledtrips = asyncHandler(async(req,res)=>{
   const userId = req.body.userId
+  const carId = req.body.CardId
+
+  // console.log(userId , carId);
 
   const bookingData = await Booking.find({"userId":userId,"cancel":true})
 
@@ -713,6 +727,7 @@ const cancelledtrips = asyncHandler(async(req,res)=>{
 
 
   if(bookingData){
+    const IncCount = await AddCar.findOneAndUpdate({"_id":carId},{$inc:{Bookingcount:-1}})
     res.status(200).json({
       bookingData
     })
@@ -780,7 +795,29 @@ const paypal = asyncHandler(async(req,res)=>{
 })
 
 
+const checkdate = asyncHandler(async(req,res)=>{
+  // console.log(req.body.val);
+  // console.log(req.body.val2);
+  const carId = req.body.id
+  const startDate= req.body.val;
+  const EndDate = req.body.val2;
+
+  const DateCheck = await Booking.find({"carId":carId,"startDate":startDate,"endDate":EndDate})
+
+  console.log(DateCheck);
+
+  if(DateCheck.length<1){
+    res.status(200).json({
+      message:"Car Available"
+    })
+  }else if(DateCheck.length>0){
+    res.json({
+      message:"Car Not Available For this Time Period"
+    })
+  }else{
+    console.log("No Date");
+  }
+})
 
 
-
-module.exports = { cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};
+module.exports = { checkdate,cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};

@@ -156,6 +156,7 @@ function Cards() {
   const handleSearchClear = () => {
       // console.log("clearing");
       SetSearchData(false)
+      setSearchText('')
   }
   
   const DistrictSort = useSelector((state)=>state.DisSort)
@@ -181,7 +182,7 @@ function Cards() {
                     <Grid item sm={12} xs={12} md={6} lg={4} xl={4} >
                            <Box sx={{display:'flex'}}  >
                              <Box>
-                             <TextField id="outlined-basic" label="Search Cars"  onChange={(e)=>setSearchText(e.target.value)} InputProps={{endAdornment:<CloseIcon onClick={handleSearchClear} style={{cursor:'pointer'}} ></CloseIcon>}}  />
+                             <TextField id="outlined-basic" label="Search Cars"value={searchText}  onChange={(e)=>setSearchText(e.target.value)} InputProps={{endAdornment:<CloseIcon onClick={handleSearchClear} style={{cursor:'pointer'}} ></CloseIcon>}}  />
                              </Box>
                             <Box  sx={{marginLeft:2}}>
                             <Button variant='contained'  sx={{marginTop:1}} onClick={handleSearch} >Search</Button>

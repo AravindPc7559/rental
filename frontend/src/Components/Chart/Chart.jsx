@@ -1,47 +1,77 @@
-import React from 'react'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import { Box } from '@mui/system';
+import React, { useEffect, useState } from 'react'
+import { Chart } from "react-google-charts";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const data = {
-    labels: ['januvary', 'februvary', 'march', 'april', 'may', 'june','july','august','september','october','novermber','december'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3,22,22,2,23,10,12],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+export const data1 = [
+    ["Brands", "Cars"],
+    ["Mini Cooper", 1000],
+    ["Bmw", 1170],
+    ["Benz", 400],
+    ["Audi", 1130],
+    ["Ford", 980],
+    ["Mclaren", 840],
+    ["Rolls Royce", 630],
+    ["Mini Cooper", 1200],
+  ];
+  
+  function getRandomNumber() {
+    return Math.random() * 100;
+  }
+  
+  export function getData() {
+    return [
+      ["Label", "Value"],
+      ["Speed", getRandomNumber()],
+      ["Fuel", getRandomNumber()],
+      ["Battery", getRandomNumber()],
+    ];
+  }
+  
+  export const options = {
+    width: 400,
+    height: 120,
+    redFrom: 90,
+    redTo: 100,
+    yellowFrom: 75,
+    yellowTo: 90,
+    minorTicks: 5,
   };
   
 
-function Chart() {
+function ChartJS() {
+    const [data, setData] = useState(getData);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setData(getData());
+    }, 3000);
+
+    return () => {
+      clearInterval(id);
+    };
+  });
   return (
-    <div>
-         <div
-     style={{height:600,width:700,marginLeft:350,marginTop:60}}
-    >
-      <Doughnut data={data} />
-    </div>
+    <div style={{marginTop:50,marginLeft:100}} >      
+    <Box sx={{marginLeft:60}} >
+    <Chart
+      chartType="Gauge"
+      width="100%"
+      height="180px"
+      data={data}
+      options={options}
+    />
+    </Box>
+
+
+ <Chart
+      chartType="Bar"
+      width="90%"
+      height="400px"
+      data={data1}
+    />
     </div>
   )
 }
 
-export default Chart
+export default ChartJS

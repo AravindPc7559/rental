@@ -67,6 +67,10 @@ const CarModel = mongoose.Schema({
     },
     longitude:{
         type:Number
+    },
+    Bookingcount:{
+        type:Number,
+        default:0   
     }
 },{
     timestamps: true

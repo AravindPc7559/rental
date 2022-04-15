@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon ,razorpay ,razorpaysuccess , bookingdata , cancel,getcoupon ,paypal,completedtrips ,cancelledtrips} = require('../Controllers/UserController')
+const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon ,razorpay ,razorpaysuccess , bookingdata , cancel,getcoupon ,paypal,completedtrips ,cancelledtrips,checkdate} = require('../Controllers/UserController')
 
 
 
@@ -63,5 +63,7 @@ router.route('/paypal').get(paypal)
 router.route('/completedtrips').post(completedtrips)
 
 router.route('/cancelledtrips').post(cancelledtrips)
+
+router.route('/checkdate').post(checkdate)
 
 module.exports = router;

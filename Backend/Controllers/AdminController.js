@@ -393,7 +393,7 @@ const revenu = asyncHandler(async(req,res)=>{
   
     
 
-    console.log(revenu);
+    // console.log(revenu);
 
 
     if(revenu){
@@ -470,7 +470,7 @@ const deleteoffer = asyncHandler(async(req,res)=>{
 
     carData.map(async(obj)=>{
         const amount = obj.prevAmount
-        console.log(amount);
+        // console.log(amount);
         const offerDisable = await AddCar.updateOne({"_id":obj._id},{$set:{"OfferStatus":false,"price":amount,"prevAmount":0}}).collation( { locale: 'en', strength: 2 } )
 
         // console.log(offerDisable);
@@ -488,4 +488,24 @@ const deleteoffer = asyncHandler(async(req,res)=>{
     })
 })
 
-module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon ,adminbookingdata , completed , revenu ,DistrictOffer , GetOffer , deleteoffer}
+const mostusedcar = asyncHandler(async(req,res)=>{
+   const max = await AddCar.find({}).sort({Bookingcount:-1}).limit(1)
+
+    const min =await AddCar.find({}).sort({Bookingcount:1}).limit(1)
+//    console.log(min[0]);
+
+   if(max){
+       res.status(200).json({
+        brand:max[0].brand,
+        model:max[0].model,
+        MinBrand:min[0].brand,
+        MinModel:min[0].model   
+       })
+   }else{
+       res.status(400).json({
+           message:"Error while getting maximum used car from the database"
+       })
+   }
+})
+
+module.exports = { Adminlogin, AddCarRoute,deletecar , getAllCarDeatails ,UpdateCarData , userManagement , userManagementUpdate , usermanagementUpdateUnblock , addDistrict ,getdistrictData ,deleteDistrict ,couponmanagement ,getcoupon , deletecoupon ,adminbookingdata , completed , revenu ,DistrictOffer , GetOffer , deleteoffer , mostusedcar}

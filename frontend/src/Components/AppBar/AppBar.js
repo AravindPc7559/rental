@@ -16,6 +16,19 @@ import AnimatedText from 'react-animated-text-content';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate,Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 
@@ -76,6 +89,13 @@ function AppBarHeader(props) {
    
     // console.log(loc.name);
 
+    // modal
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
+    // 
+
     
 
 
@@ -90,6 +110,7 @@ function AppBarHeader(props) {
         localStorage.removeItem('userInfo')
         setLogout(true)
         navigate('/')
+        setOpen(false)
         
       }
 
@@ -140,7 +161,7 @@ function AppBarHeader(props) {
       <div>
       <MenuItem onClick={()=>navigate(`/profile/${userId}`)}>Profile</MenuItem>
       <MenuItem onClick={()=>navigate('/bookinghistory')}>Booking History</MenuItem>
-      <MenuItem onClick={logoutHandle}>Logout</MenuItem>
+      <MenuItem onClick={handleOpen}>Logout</MenuItem>
       </div>
       :
       <MenuItem onClick={()=>navigate('/login')}>Login</MenuItem>
@@ -191,6 +212,40 @@ function AppBarHeader(props) {
   return (
     
     <Box sx={{ flexGrow: 1,position:'fixed',top:0,left:0,right:0,zIndex:100}}>
+
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        {
+          props.admin ?
+          <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" textAlign='center' component="h2">
+            Are you sure want to Logout
+          </Typography>
+      <Box sx={{justifyContent:'center',display:'flex'}} >
+      <Button onClick={adminLogoutHandle} >Yes</Button>
+      <Button onClick={()=>setOpen(false)} >No</Button>
+      </Box>
+        </Box> :
+       <Box sx={style}>
+       <Typography id="modal-modal-title" variant="h6" textAlign='center' component="h2">
+         Are you sure want to Logout
+       </Typography>
+   <Box sx={{justifyContent:'center',display:'flex'}} >
+   <Button onClick={logoutHandle} >Yes</Button>
+   <Button onClick={()=>setOpen(false)} >No</Button>
+   </Box>
+   </Box>
+        }
+            
+      
+      </Modal>
+
+
+
     <AppBar position="static" style={{backgroundColor:'#222222'}}>
       <Toolbar>
         {/* <IconButton
@@ -209,7 +264,10 @@ function AppBarHeader(props) {
           // sx={{ display: { xs: 'none', sm: 'block' } }}
         >
           {
-              props.admin ? null : <Link to='/' style={{color:'white',textDecoration:'none'}} >ROADSTER</Link>
+              props.admin ? null : <div style={{display:'flex'}} >
+                <img src='https://cdn.dribbble.com/users/1732431/screenshots/4236759/800x600.png' style={{height:50}} alt='Roadsters Logo' />
+                <Link to='/' style={{color:'white',textDecoration:'none'}} ><Typography  mt={1.5} ml={1} >ROADSTER</Typography></Link>
+              </div>
           }
         </Typography>
 
@@ -272,7 +330,7 @@ function AppBarHeader(props) {
           
         {
             props.admin ?
-            <Button variant='contained' onClick={adminLogoutHandle} >Logout</Button>
+            <Button variant='contained' onClick={handleOpen} >Logout</Button>
             :
           
             <IconButton

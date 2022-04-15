@@ -32,6 +32,7 @@ function BookingHistory() {
   const [completedTrips , SetCompletedTrips] = useState([])
   const [cancelledTrip , setCancelledTrip] = useState([])
   const [PageRender , setPageRender] = useState(false)
+  const [DeleteCarId , setDeleteCarId] = useState()
   //modal
   const [open, setOpen] = React.useState(false);
   const handleClosemodal = () => setOpen(false);
@@ -80,14 +81,15 @@ function BookingHistory() {
   }
 
   const CancelledTrips = () => {
-    axios.post('/api/user/cancelledtrips',{"userId":USERID}).then((res)=>{
+    axios.post('/api/user/cancelledtrips',{"userId":USERID,"CardId":DeleteCarId}).then((res)=>{
         // console.log(res);
         setCancelledTrip(res.data.bookingData)
     })
 }
 
-    const cancelhandler = (id) => {
-      // console.log(id);
+    const cancelhandler = (id,id2) => {
+      // console.log(id ,id2);
+      setDeleteCarId(id2)
       setCancelId(id)
       setOpen(true);
     }
@@ -195,7 +197,7 @@ function BookingHistory() {
           </Typography>
         </CardContent>
         <CardActions>
-        <Button size="small"  variant='outlined' color='error'  onClick={()=>cancelhandler(`${obj._id}`)}  >Cancel Booking <CancelIcon/> </Button>
+        <Button size="small"  variant='outlined' color='error'  onClick={()=>cancelhandler(`${obj._id}`,`${obj.carId}`)}  >Cancel Booking <CancelIcon/> </Button>
          
         </CardActions>
       </Card>
