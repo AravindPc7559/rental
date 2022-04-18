@@ -49,6 +49,18 @@ app.use(fileUpload())
 app.use('/api/user',userRoute)
 app.use('/api/admin',AdminRoute)
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/build')));
+
+    app.get('*', (req, res) =>{
+        res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+    })
+} else {
+    app.get("/", (req, res) => {
+        res.status(200).send("Hellow Everybody..asdas..");
+    });
+} 
+
 app.use(notFound);
 app.use(errorHandler);
 
