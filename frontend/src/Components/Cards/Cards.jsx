@@ -198,9 +198,9 @@ function Cards() {
       </Button>
       <Popper id={id} open={open} anchorEl={anchorEl}>
         <Box sx={{ border: 1, p: 1, bgcolor: 'white'}}>
-          <Button onClick={lowtohigh} >Low to high</Button>
+          <Button onClick={lowtohigh} >Price--Low to high</Button>
           <br/>
-          <Button onClick={hightolow} >High to low</Button>
+          <Button onClick={hightolow} >Price--High to low</Button>
         </Box>
       </Popper>
       </Box>

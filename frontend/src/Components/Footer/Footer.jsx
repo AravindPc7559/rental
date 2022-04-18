@@ -1,7 +1,19 @@
 import React from 'react'
 import './footer.css'
+import {Button} from '@mui/material'
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 function Footer() {
+    const handleVisibleButton = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+      };
+
+    //   useEffect(() => {
+    //     window.addEventListener("scroll", handleVisibleButton);
+    //   },[]);
   return (
     <footer class="footer-section">
         <div class="container">
@@ -95,6 +107,11 @@ function Footer() {
                     <div class="col-xl-6 col-lg-6 text-center text-lg-left">
                         <div class="copyright-text">
                             <p>Copyright &copy; 2022, All Right Reserved <a >Aravind</a></p>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                        <div class="copyright-text">
+                           <Button onClick={handleVisibleButton} variant='outlined' >Back To Top<ArrowCircleUpIcon/></Button>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
