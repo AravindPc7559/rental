@@ -819,5 +819,10 @@ const checkdate = asyncHandler(async(req,res)=>{
   }
 })
 
+const mapboxtoken = asyncHandler(async(req,res)=>{
+  res.status(200).json({
+    Token:process.env.MAPBOX_TOKEN
+  })
+})
 
-module.exports = { checkdate,cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};
+module.exports = {mapboxtoken, checkdate,cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};

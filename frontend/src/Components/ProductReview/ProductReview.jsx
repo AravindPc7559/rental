@@ -22,7 +22,8 @@ function ProductReview({id}) {
   const[carId , setCarID] = useState()
   const data = localStorage.getItem('userInfo')
   const value = JSON.parse(data)
-  const [render,setRender] = useState(0)
+  const [render,setRender] = useState(false)
+  const [deleteRender , setDeleteRender] = useState(false)
   const [comments,setComments]= useState([])
   const [deleteId , setDeleteId] = useState()
 
@@ -67,7 +68,7 @@ function ProductReview({id}) {
         console.log(response);
       })
 
-      setRender(render+1)
+      setRender(true)
 
      } catch (error) {
        console.log("Something happend" , error);
@@ -99,7 +100,7 @@ function ProductReview({id}) {
         console.log(res);
       })
       setOpen(false);
-      setRender(render+1)
+      setDeleteRender(true)
     } catch (error) {
       
     }
@@ -110,7 +111,7 @@ function ProductReview({id}) {
   useEffect(()=>{
     namesetting()
     GetReviews()
-  },[render])
+  },[render,deleteRender])
  
   return (
     <div>

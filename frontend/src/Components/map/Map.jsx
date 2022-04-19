@@ -26,25 +26,37 @@ const style = {
   };
   
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYXJhdmluZDEyMzEyMyIsImEiOiJjbDBqam5jZW8wZGJhM2ltaTdjMG9ucHJxIn0.OrLoLXbYn3qyt2FbixFFmg';
+
 
 function Map() {
     const mapContainerRef = useRef(null)
     const [directionInfo , setDirectionInfo] = useState([])
     const [render,setRender] = useState(false)
-    // const geoObj = useGeolocation();
-    const [lng , setLng] = useState('')
+    const [renderOne , setRenderOne] = useState(false)
+    const [mapToken , setMapToken ] = useState({})
     const [lat , setLat] = useState('')
+
+    mapboxgl.accessToken = mapToken;
+
+    console.log(mapboxgl.accessToken);
 
     const [returnRender , setReturnRedner] = useState(false)
 
     const lattitude = useSelector((state)=>state.lat)
     const longitude = useSelector((state)=>state.lng)
 
-    // console.log(lattitude , longitude);
 
+   
     useEffect(() => {
-        // if (!cordinates && !destinationCord) return
+   
+
+
+        axios.get('/api/user/mapboxtoken').then((res)=>{
+          setMapToken(res.data.Token) 
+          setRender(true)
+        })
+
+       
       
 
         const map = new mapboxgl.Map({
@@ -86,7 +98,7 @@ function Map() {
           axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${e.coords.longitude},${e.coords.latitude};${longitude},${lattitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`).then((res)=>{
           // console.log(res.data);
           setDirectionInfo(res.data.routes[0].geometry.coordinates)
-          setRender(true)
+          setRenderOne(true)
         })
       
           
@@ -137,7 +149,7 @@ function Map() {
         })
     
         
-      }, [render]);
+      }, [render,renderOne]);
 
   return (
       
