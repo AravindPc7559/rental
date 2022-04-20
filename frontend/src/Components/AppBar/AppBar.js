@@ -276,18 +276,19 @@ function AppBarHeader(props) {
 
 
         <Box sx={{ flexGrow: 1 }} />
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-      
-
         {
             loc && !props.admin ? 
-            <div style={{marginRight:10 , marginTop:6 }}>
+            <div style={{marginRight:10 , marginTop:3 }}>
             
             <Button sx={{color:'white'}} onClick={()=>navigate('/wishlist')}   >Wishlist</Button> </div>
               :
               null
           }
 
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+      
+
+      
 
           {
             loc && !props.admin ? 
