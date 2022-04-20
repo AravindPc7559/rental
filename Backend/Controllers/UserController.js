@@ -366,6 +366,7 @@ const getallwishlistdata = asyncHandler(async(req,res)=>{
     'imgUrl model brand'
   )
 
+  // console.log(data);
   if(data){
     res.json(data.wishlist)
   }else{

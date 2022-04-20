@@ -30,16 +30,16 @@ function WishList() {
 
   const user = localStorage.getItem('userInfo') 
   const [carID , setCarId] = useState([])
-  const [render,setRender] = useState(0)
+  const [render,setRender] = useState(false)
   const navigate = useNavigate()
   
   
   const data = JSON.parse(user)
   const USERID = data._id
-  console.log(carID);
+  // console.log(carID);
 
   const remove = (id) => {
-    console.log(id);
+    // console.log(id);
     setRemoveId(id)
     setOpen(true);
   }
@@ -51,22 +51,17 @@ function WishList() {
     })
   }
 
-  const removefromwishlist = () => {
-    try {
-      axios.post(`/api/user/removefromwishlist/${removeId}`,{USERID}).then((res)=>{
-        // console.log(res);
-      })
-      setRender(render+1)
-      setOpen(false);
-    } catch (error) {
-      
-    }
+  const removefromwishlist = async() => {
+    const data = await  axios.post(`/api/user/removefromwishlist/${removeId}`,{USERID})
+      setRender(true)
+      setOpen(false); 
   }
-console.log(render);
 
+  console.log(render);
   
   useEffect(()=>{
       getallwishlistdata()  
+      setRender(false)
   },[render])
 
   return (

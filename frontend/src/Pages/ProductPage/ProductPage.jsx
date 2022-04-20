@@ -29,10 +29,8 @@ function ProductPage(id) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [bookStatus , setBookStatus] = useState(false)
-  const [removeWishlistRender , setRemoveWishlistRender] = useState(false)
   const [pageRender , setPageRender] = useState(false)
   const [DateAvailability , SetDateAvailability] = useState(false)
-
     const val = format(new Date(value[0]) ,'dd/MM/yyyy ')
     const val2 = format(new Date(value[1]) ,'dd/MM/yyyy ')
 
@@ -67,7 +65,7 @@ function ProductPage(id) {
       try {
 
           axios.post(`/api/user/GetSingleCar/${id2.id}`).then((responce)=>{
-            console.log(responce.data);
+            // console.log(responce.data);
             setCarData(responce.data)
             setDummyAmount(responce.data.price)
             setCarID(responce.data._id)
@@ -136,43 +134,8 @@ const count = getDifferenceInDays(value[0],value[1])
     />
 );
 
+var test = false;
 
-
-
-
-const wishlist = () => {
-  axios.post(`/api/user/dataTowishlist/${id2.id}`,{USERID}).then((res)=>{
-    // console.log(res);
-  })
-  setUpdate(true)
-}
-
-
-const getwishlistdata = () => {
-  try {
-    axios.post('/api/user/getdatafromwishlist',{USERID}).then((res)=>{
-      // console.log(res);
-      setWishListData(res.data.wishlist)
-    })
-    
-  } catch (error) {
-    
-  }
-}
-
-const removefromwishlist = () => {
-  try {
-    axios.post(`/api/user/removefromwishlist/${id2.id}`,{USERID}).then((res)=>{
-      // console.log(res);
-    })
-    setRemoveWishlistRender(true)
-  } catch (error) {
-    
-  }
-}
-  
-
-let test = false;
 wishlistdata.filter((item)=>{
   if(item === carData._id){
     test = true;
@@ -181,6 +144,40 @@ wishlistdata.filter((item)=>{
   }
 })
 
+
+
+const wishlist = () => {
+  axios.post(`/api/user/dataTowishlist/${id2.id}`,{USERID}).then((res)=>{
+    // console.log(res);
+
+    setUpdate(true)
+  })
+}
+
+
+const getwishlistdata = () => {
+  try {
+    axios.post('/api/user/getdatafromwishlist',{USERID}).then((res)=>{
+      // console.log(res.data.wishlist);
+      setWishListData(res.data.wishlist)
+    })
+
+
+    
+  } catch (error) {
+    
+  }
+}
+
+const removefromwishlist = async() => {
+  const data = await axios.post(`/api/user/removefromwishlist/${id2.id}`,{USERID})
+  // console.log(data.data);
+  setUpdate(false)
+}
+  
+
+
+// console.log(test);
 
 const callingMap = () => {
   navigate('/map')
@@ -213,9 +210,7 @@ useEffect(()=>{
   getwishlistdata()
 
   setPageRender(true)
-
-
-},[update,removeWishlistRender,pageRender])
+},[update,pageRender])
 
 
 
