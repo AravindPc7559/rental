@@ -6,11 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AnimatedText from 'react-animated-text-content';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -276,9 +273,9 @@ function AppBarHeader(props) {
 
 
         <Box sx={{ flexGrow: 1 }} />
-        {
+          {
             loc && !props.admin ? 
-            <div style={{marginRight:10 , marginTop:3 }}>
+            <div style={{marginRight:10}}>
             
             <Button sx={{color:'white'}} onClick={()=>navigate('/wishlist')}   >Wishlist</Button> </div>
               :

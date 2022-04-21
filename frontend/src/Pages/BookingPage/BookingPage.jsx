@@ -282,7 +282,7 @@ const susscesPaypalHandle = (paymentResult) => {
             <Paper elevation={3} sx={{minHeight:144}} >
             <Box sx={{justifyContent:'center',display:'flex',paddingTop:6}} >
                 <Typography variant='h6 ' component='h5' textAlign='center' >
-                Pickup Location:  {cardata.location} <LocationOnOutlinedIcon onClick={mapHandle} style={{fontSize:40,cursor:'pointer'}}  />
+                Pickup Location:  {cardata.location} <LocationOnOutlinedIcon onClick={mapHandle} style={{fontSize:40,cursor:'pointer'}}   />
                   </Typography>
               </Box>
                 </Paper>

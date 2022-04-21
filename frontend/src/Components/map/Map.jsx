@@ -38,7 +38,7 @@ function Map() {
 
     mapboxgl.accessToken = mapToken;
 
-    console.log(mapboxgl.accessToken);
+    // console.log(mapboxgl.accessToken);
 
     const [returnRender , setReturnRedner] = useState(false)
 

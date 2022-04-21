@@ -826,4 +826,5 @@ const mapboxtoken = asyncHandler(async(req,res)=>{
   })
 })
 
+
 module.exports = {mapboxtoken, checkdate,cancelledtrips,RegisterUser, loginUser,getCarData , otpnumber , otpvalidate,GetSingleCar , postingcomment  , gettingreviews , deletecomment,dataTowishlist , search,lowtohigh , hightolow , getdatafromwishlist ,getallwishlistdata ,removefromwishlist , getprofileuserdata ,userupdate,passwordreset , getdistrict,searchdistrict , applycoupon ,razorpay ,razorpaysuccess ,bookingdata ,cancel ,getcoupon  ,paypal , completedtrips};

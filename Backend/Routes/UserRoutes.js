@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router()
-const {RegisterUser,loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon ,razorpay ,razorpaysuccess , bookingdata , cancel,getcoupon ,paypal,completedtrips ,cancelledtrips,checkdate,mapboxtoken} = require('../Controllers/UserController')
+const {RegisterUser , loginUser,getCarData, otpnumber , otpvalidate,GetSingleCar,postingcomment , gettingreviews , deletecomment , dataTowishlist,search,lowtohigh , hightolow,getdatafromwishlist ,getallwishlistdata ,removefromwishlist,getprofileuserdata , userupdate,passwordreset,getdistrict , searchdistrict , applycoupon ,razorpay ,razorpaysuccess , bookingdata , cancel,getcoupon ,paypal,completedtrips ,cancelledtrips,checkdate,mapboxtoken} = require('../Controllers/UserController')
 
 
 
@@ -67,5 +67,6 @@ router.route('/cancelledtrips').post(cancelledtrips)
 router.route('/checkdate').post(checkdate)
 
 router.route('/mapboxtoken').get(mapboxtoken)
+
 
 module.exports = router;

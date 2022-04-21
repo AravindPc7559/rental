@@ -111,7 +111,13 @@ function ProductReview({id}) {
   useEffect(()=>{
     namesetting()
     GetReviews()
+  
   },[render,deleteRender])
+  
+  useEffect(()=>{
+    setRender(false)
+    setDeleteRender(false)
+  })
  
   return (
     <div>

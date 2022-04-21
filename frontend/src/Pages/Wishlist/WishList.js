@@ -8,7 +8,6 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import Modal from '@mui/material/Modal';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -23,7 +22,6 @@ const style = {
 
 function WishList() {
 
-
   const [open, setOpen] = React.useState(false);
   const handleClosemodal = () => setOpen(false);
   const[removeId , setRemoveId] = useState('')
@@ -37,6 +35,12 @@ function WishList() {
   const data = JSON.parse(user)
   const USERID = data._id
   // console.log(carID);
+
+
+  const wishlistCount = carID.length
+
+
+  // console.log(wishlistCount);
 
   const remove = (id) => {
     // console.log(id);
@@ -56,8 +60,6 @@ function WishList() {
       setRender(true)
       setOpen(false); 
   }
-
-  console.log(render);
   
   useEffect(()=>{
       getallwishlistdata()  

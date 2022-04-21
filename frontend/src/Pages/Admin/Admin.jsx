@@ -10,9 +10,7 @@ function Admin() {
 
   return (
     <div>
-      
-      {/* <SideBar/> */}
-      <AdminDashboard/>
+            <AdminDashboard/>
     </div>
   )
 }
